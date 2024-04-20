@@ -63,7 +63,7 @@ const ChatCard = () => {
       <div>
         {chatData.map((chat, key) => (
           <Link
-            href="/"
+            href="/template"
             className="flex items-center gap-5 px-7.5 py-3 hover:bg-gray-3 dark:hover:bg-meta-4"
             key={key}
           >
