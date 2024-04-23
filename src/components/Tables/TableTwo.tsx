@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Product } from "@/types/product";
+import Link from "next/link";
 
 const productData: Product[] = [
   {
@@ -41,25 +42,22 @@ const TableTwo = () => {
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="px-4 py-6 md:px-6 xl:px-7.5">
         <h4 className="text-xl font-semibold text-black dark:text-white">
-          Top Products
+          Shopping Cart
         </h4>
       </div>
 
       <div className="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
-        <div className="col-span-3 flex items-center">
+        <div className="col-span-2 sm:col-span-4 flex items-center">
           <p className="font-medium">Product Name</p>
         </div>
-        <div className="col-span-2 hidden items-center sm:flex">
-          <p className="font-medium">Category</p>
+        <div className="col-span-2 flex items-center">
+          <p className="font-medium">Quantity</p>
         </div>
         <div className="col-span-1 flex items-center">
-          <p className="font-medium">Price</p>
+          <p className="font-medium">Unit Price</p>
         </div>
         <div className="col-span-1 flex items-center">
-          <p className="font-medium">Sold</p>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="font-medium">Profit</p>
+          <p className="font-medium">Total</p>
         </div>
       </div>
 
@@ -68,7 +66,7 @@ const TableTwo = () => {
           className="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
           key={key}
         >
-          <div className="col-span-3 flex items-center">
+          <div className="col-span-2 sm:col-span-4 flex items-center">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
               <div className="h-12.5 w-15 rounded-md">
                 <Image
@@ -78,23 +76,21 @@ const TableTwo = () => {
                   alt="Product"
                 />
               </div>
-              <p className="text-sm text-black dark:text-white">
-                {product.name}
+              <p className="text-sm text-black dark:text-white underline">
+                <Link href="/" >{product.name}</Link>
               </p>
             </div>
           </div>
-          <div className="col-span-2 hidden items-center sm:flex">
+          <div className="col-span-2 items-center flex">
             <p className="text-sm text-black dark:text-white">
-              {product.category}
+              <input type="number" defaultValue={1} className="w-20" min={0} max={99} />
+              <button className="m-1 p-1 border-2">X</button>
             </p>
           </div>
           <div className="col-span-1 flex items-center">
             <p className="text-sm text-black dark:text-white">
               ${product.price}
             </p>
-          </div>
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-black dark:text-white">{product.sold}</p>
           </div>
           <div className="col-span-1 flex items-center">
             <p className="text-sm text-meta-3">${product.profit}</p>
