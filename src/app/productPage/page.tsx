@@ -288,6 +288,7 @@ const ProductPage = (props:Object) =>{
                 </form>
             </div>
             <div className="bg" id="bg"></div>
+            
         </>
     )
 }
