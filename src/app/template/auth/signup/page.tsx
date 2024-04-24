@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -6,13 +8,23 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Metadata } from "next";
 import TemplateLayout from "@/components/Layouts/DefaultLayout";
 
-export const metadata: Metadata = {
-  title: "Next.js SignUp Page | TailAdmin - Next.js Dashboard Template",
-  description: "This is Next.js SignUp Page TailAdmin Dashboard Template",
-  // other metadata
-};
+// export const metadata: Metadata = {
+//   title: "Next.js SignUp Page | TailAdmin - Next.js Dashboard Template",
+//   description: "This is Next.js SignUp Page TailAdmin Dashboard Template",
+//   // other metadata
+// };
 
 const SignUp: React.FC = () => {
+
+  const submit=(e:MouseEvent)=>{
+    e.preventDefault();
+    console.log("submited form")
+    const formValues = e.target;
+    const form = new FormData(formValues);
+    const value = Object.fromEntries(form);
+    console.log(value)
+  }
+
   return (
     <TemplateLayout>
       <Breadcrumb pageName="Sign Up" />
@@ -174,7 +186,7 @@ const SignUp: React.FC = () => {
                 Sign Up to TailAdmin
               </h2>
 
-              <form>
+              <form onSubmit={submit}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Name
@@ -182,6 +194,7 @@ const SignUp: React.FC = () => {
                   <div className="relative">
                     <input
                       type="text"
+                      name="name"
                       placeholder="Enter your full name"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
@@ -217,6 +230,7 @@ const SignUp: React.FC = () => {
                   <div className="relative">
                     <input
                       type="email"
+                      name="email"
                       placeholder="Enter your email"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
@@ -248,6 +262,7 @@ const SignUp: React.FC = () => {
                   <div className="relative">
                     <input
                       type="password"
+                      name="password"
                       placeholder="Enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
@@ -283,6 +298,7 @@ const SignUp: React.FC = () => {
                   <div className="relative">
                     <input
                       type="password"
+                      name="password"
                       placeholder="Re-enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
