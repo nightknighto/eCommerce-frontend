@@ -17,7 +17,7 @@ export default function MainLayout ({ children }: {
         <div>
             <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-            <main className='bg-green-100'>
+            <main>
                 {children}
             </main>            
 
