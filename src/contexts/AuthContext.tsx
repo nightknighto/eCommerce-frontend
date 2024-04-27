@@ -25,8 +25,10 @@ export default function AuthContextProvider({ children }: { children: React.Reac
     const [token, setToken] = useState<AuthContextType['token']>(null);
     const [user, setUser] = useState<AuthContextType['user']>(null);
     const [loginModalOpen, setLoginModalOpen] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const login = async (email: string, password: string, remember: boolean) => {
+        setError(null);
         const res = await fetch('https://distributed-project-backend.onrender.com/api/login/', {
             method: 'POST',
             headers: {
@@ -41,11 +43,13 @@ export default function AuthContextProvider({ children }: { children: React.Reac
         const data = await res.json();
 
         if (!res.ok) {
-            return console.log('Login failed: ', data.detail);
+            setError('Login failed: ' + data.details);
+            return;
         }
 
         if(remember) localStorage.setItem(localStorageKey, data);
 
+        setLoginModalOpen(false);
         setToken(data.token);
         setUser(data.user);
     };
@@ -82,7 +86,7 @@ export default function AuthContextProvider({ children }: { children: React.Reac
         <AuthContext.Provider value={{ token, user, login, logout, openModal }}>
             <>
                 {children}
-                <LoginModal open={loginModalOpen} onClose={closeModal} onSubmit={submitLoginModal} />
+                <LoginModal open={loginModalOpen} onClose={closeModal} onSubmit={submitLoginModal} error={error} />
             </>
         </AuthContext.Provider>
     );

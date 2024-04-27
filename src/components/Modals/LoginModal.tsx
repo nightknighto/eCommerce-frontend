@@ -1,16 +1,17 @@
 
 "use client";
 
-import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
+import { Alert, Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
 import { useState } from "react";
 
 type LoginModalProps = {
     open: boolean;
     onClose: () => void;
     onSubmit: (email: string, password: string, remember: boolean) => void;
+    error: string | null;
 }
 
-export default function LoginModal({ open, onClose, onSubmit }: LoginModalProps) {
+export default function LoginModal({ open, onClose, onSubmit, error }: LoginModalProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [remember, setRemember] = useState(false);
@@ -32,6 +33,9 @@ export default function LoginModal({ open, onClose, onSubmit }: LoginModalProps)
                 <Modal.Body>
                     <form className="space-y-6" onSubmit={onSubmitModal}>
                         <h3 className="text-xl font-medium text-gray-900 dark:text-white">Sign in to our platform</h3>
+                        {error && <Alert color="failure" className="bg-danger text-white">
+                            <span className="font-medium">Error!</span> {error}
+                        </Alert>}
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="email" value="Your email" />
