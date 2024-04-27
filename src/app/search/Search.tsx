@@ -23,9 +23,9 @@ const Search = () => {
 
     return (
         <MainLayout>
-            <div className="flex p-4 gap-x-4">
+            <div className="flex flex-col md:flex-row p-4 gap-x-4">
                 {/* Sidebar */}
-                <div className="bg-white border-slate-400 rounded-md border-2 w-1/5 max-w-1/5 p-2">
+                <div className="bg-white border-slate-400 rounded-md border-2 w-full md:w-1/5 p-2">
                     <p className="font-semibold mb-2">Filters</p>
 
                     <p className="font-medium mt-2">Availability</p>
