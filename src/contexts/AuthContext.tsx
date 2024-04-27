@@ -1,12 +1,14 @@
 "use client";
+import LoginModal from '@/components/Modals/LoginModal';
 import { User } from '@/types/user';
 import React, { createContext, useEffect, useState } from 'react';
 
 interface AuthContextType {
     token: string | null;
     user: User | null;
-    login: (email: string, password: string) => void;
+    login: (email: string, password: string, remember: boolean) => void;
     logout: () => void;
+    openModal: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -14,6 +16,7 @@ export const AuthContext = createContext<AuthContextType>({
     user: null,
     login: () => {},
     logout: () => {},
+    openModal: () => {},
 });
 
 const localStorageKey = 'loggedInUser';
@@ -21,8 +24,9 @@ const localStorageKey = 'loggedInUser';
 export default function AuthContextProvider({ children }: { children: React.ReactNode }) {
     const [token, setToken] = useState<AuthContextType['token']>(null);
     const [user, setUser] = useState<AuthContextType['user']>(null);
+    const [loginModalOpen, setLoginModalOpen] = useState(false);
 
-    const login = async (email: string, password: string) => {
+    const login = async (email: string, password: string, remember: boolean) => {
         const res = await fetch('https://distributed-project-backend.onrender.com/api/login/', {
             method: 'POST',
             headers: {
@@ -40,7 +44,7 @@ export default function AuthContextProvider({ children }: { children: React.Reac
             return console.log('Login failed: ', data.detail);
         }
 
-        localStorage.setItem(localStorageKey, data);
+        if(remember) localStorage.setItem(localStorageKey, data);
 
         setToken(data.token);
         setUser(data.user);
@@ -62,9 +66,24 @@ export default function AuthContextProvider({ children }: { children: React.Reac
         }
     }, []);
 
+    const openModal = () => {
+        setLoginModalOpen(true);
+    }
+
+    const closeModal = () => {
+        setLoginModalOpen(false);
+    }
+
+    const submitLoginModal = (email: string, password: string, remember: boolean) => {
+        login(email, password, remember);
+    }
+
     return (
-        <AuthContext.Provider value={{ token, user, login, logout }}>
-            {children}
+        <AuthContext.Provider value={{ token, user, login, logout, openModal }}>
+            <>
+                {children}
+                <LoginModal open={loginModalOpen} onClose={closeModal} onSubmit={submitLoginModal} />
+            </>
         </AuthContext.Provider>
     );
 };

@@ -6,13 +6,16 @@ import DropdownMessage from "./DropdownMessage";
 import DropdownNotification from "./DropdownNotification";
 import DropdownUser from "./DropdownUser";
 import Image from "next/image";
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import { useRouter } from "next/navigation";
+import { AuthContext } from "@/contexts/AuthContext";
+import { Button } from "flowbite-react";
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
+  const {token, login, openModal} = useContext(AuthContext);
   const router = useRouter();
   const [input, setInput] = useState("");
 
@@ -21,8 +24,10 @@ const Header = (props: {
     router.push(`/search?search=${input}`);
   }
 
+
+
   return (
-    <header className="sticky top-0 z-999 w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
+    <header className="sticky top-0 z-100 w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
       <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
         
         <div className="flex items-center gap-2 sm:gap-4">
@@ -118,14 +123,26 @@ const Header = (props: {
           </form>
         </div>
 
-        <div className="flex items-center gap-3 2xsm:gap-7">
-          <ul className="flex items-center gap-2 2xsm:gap-4">
-            <DropdownNotification />
-            <DropdownMessage />
-          </ul>
+        {
+          !token ? (
+            <Button
+              color="blue"
+              onClick={openModal}
+            >
+              Login
+            </Button>
+          ) : (
+            <div className="flex items-center gap-3 2xsm:gap-7">
+              <ul className="flex items-center gap-2 2xsm:gap-4">
+                <DropdownNotification />
+                <DropdownMessage />
+              </ul>
+    
+              <DropdownUser />
+            </div>
+          )
+        }
 
-          <DropdownUser />
-        </div>
       </div>
       <nav className="bg-gray-50 dark:bg-gray-700">
         <div className="max-w-screen-xl px-4 py-3 mx-auto">
