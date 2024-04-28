@@ -6,10 +6,11 @@ import Image from "next/image";
 import CreditCard from "./CreditCard";
 import ConfirmCard from "./confirmCard";
 
-const Checkout = (props:Object) =>{
+const Checkout = () =>{
 
     const steps = {1:"address",2:"payment",3:"done"};
     let [step,setStep] = useState(1);
+    const [creditCardDisplay, setCreditCardDisplay] = useState("hidden");
 
     const next = (e:MouseEvent)=>{
         setStep(s=>++s);
@@ -74,29 +75,14 @@ const Checkout = (props:Object) =>{
         }
     },[step])
 
-    const methodHandler = (e:MouseEvent)=>{
-        const creditCard = document.getElementById("credit-card-div");
+    const methodHandler = (open: boolean)=>{
         const nextBtn = document.getElementById("next");
         if(!nextBtn?.classList.contains("hidden"))
             nextBtn?.classList.toggle("hidden")
-        console.log(e.target);
-        if(e.target.id === "credit-card"){
-            if(!nextBtn?.classList.contains("hidden"))
-                nextBtn?.classList.toggle("hidden")
-            // creditCard.style.display = "flex";
-            creditCard.classList.toggle("hidden");
-            setTimeout(()=>{
-                creditCard.style.height = "400px"; // <500
-            },10)
+        if(open){
+            setCreditCardDisplay("flex");
         }else{
-            if(nextBtn?.classList.contains("hidden"))
-                nextBtn?.classList.toggle("hidden")
-            creditCard.style.height = "0px";
-            setTimeout(()=>{
-                // creditCard.style.display = "none";
-                creditCard.classList.toggle("hidden");
-            },10)
-        
+            setCreditCardDisplay("hidden");
         }
     }
 
@@ -213,7 +199,7 @@ const Checkout = (props:Object) =>{
                         <div className="Billing flex flex-col gap-y-5">
                             <div className="cod">
                                 <div className="flex flex-row text-xl items-center gap-x-2">
-                                    <input type="radio" name="payment-method" defaultChecked onChange={methodHandler} id="cod"/>
+                                    <input type="radio" name="payment-method" defaultChecked onChange={methodHandler.bind(null, false)} id="cod"/>
                                     <label htmlFor="cod" className="font-semibold">Cash on Delivery &#40;COD&#41;</label>
                                 </div>
                                 <div>
@@ -222,10 +208,10 @@ const Checkout = (props:Object) =>{
                             </div>
                             <div className="master-card flex flex-col">
                                 <div className="flex flex-row text-xl items-center gap-x-2">
-                                    <input type="radio" name="payment-method" onChange={methodHandler} id="credit-card"/>
+                                    <input type="radio" name="payment-method" onChange={e => methodHandler(true)} id="credit-card"/>
                                     <label htmlFor="credit-card" className="font-semibold">Credit card</label>
                                 </div>
-                                <div className="credit-card-div hidden flex flex-col w-full gap-y-3 mt-3 text-xl" id="credit-card-div">
+                                <div className={`credit-card-div flex flex-col w-full gap-y-3 mt-3 text-xl ${creditCardDisplay}`} id="credit-card-div">
                                     <div className="card flex flex-row justify-between">
                                         <div className="add-new-card">
                                             <div className="flex flex-row items-center gap-x-3">
@@ -337,7 +323,19 @@ const Checkout = (props:Object) =>{
                     <button className="mx-3 h-fit px-2 py-1 w-20 box-border rounded-lg bg-sky-500 
                     text-white text-xl hover:translate-x-1 duration-200" id="next" onClick={next}>Next</button>
                 </div>
-                <div className="bottom h-1 bg-sky-500" id="progress"></div>
+                <div className={`bottom h-1 bg-sky-500 w-${step === 1 ? '1/3' : step === 2 ? '2/3' : 'full'}`} id="progress"></div>
+                
+                <div className="two"></div>
+                <div className="three"></div>
+                {
+                    step === 1 ? (
+                        <div className="one"></div>
+                    ) : step === 2 ? (
+                        <div className="two"></div>
+                    ) : (
+                        <div className="three"></div>
+                    )
+                }
             </div>
         </div>
         </>

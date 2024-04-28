@@ -2,17 +2,23 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-const CreditCard = (props:Object)=>{
+interface CreditCardProps {
+    id: string;
+}
+
+const CreditCard = ({ id }: CreditCardProps)=>{
 
 
     const showConfirmHandler = (e:MouseEvent)=>{
-        const confs = document.getElementsByClassName("credit-card-confirmation");
+        const confs = document.getElementsByClassName("credit-card-confirmation") as HTMLCollectionOf<HTMLElement>;
         for(let i = 0;i<confs.length;i++){
             confs[i].style.display = "none";
         }
-        const confirmation = document.getElementById(`credit-card-confirmation-${props.id}`);
-        confirmation.style.display = "block";
-        confirmation.style.backgroundColor = "rgb(241,245,249)";
+        const confirmation = document.getElementById(`credit-card-confirmation-${id}`);
+        if(confirmation) {
+            confirmation.style.display = "block";
+            confirmation.style.backgroundColor = "rgb(241,245,249)";
+        }
     }
     
     const confirm = (e:MouseEvent)=>{
@@ -22,16 +28,16 @@ const CreditCard = (props:Object)=>{
         const cvc = Array.from(form)[1] 
         let flag = false;
         if(number[1].length !== 16){
-            document.getElementById(`number-${props.id}`).style.border = "2px solid red";
+            document.getElementById(`number-${id}`).style.border = "2px solid red";
             flag =true;
         }else{
-            document.getElementById(`number-${props.id}`).style.border = "1px solid #6b7280";
+            document.getElementById(`number-${id}`).style.border = "1px solid #6b7280";
         }
         if(cvc[1].length !== 3){
-            document.getElementById(`cvc-${props.id}`).style.border = "2px solid red";
+            document.getElementById(`cvc-${id}`).style.border = "2px solid red";
             flag =true;
         }else{
-            document.getElementById(`cvc-${props.id}`).style.border = "1px solid #6b7280";
+            document.getElementById(`cvc-${id}`).style.border = "1px solid #6b7280";
         }
         if(flag) return;
 
@@ -75,13 +81,13 @@ const CreditCard = (props:Object)=>{
                     <div className="w-35 text-center">xxxx-xxxx-xxxx-2343</div>
                     <div className="w-35 text-center">08-2026</div>
                 </div>
-                <div className="credit-card-confirmation p-5 hidden" id={`credit-card-confirmation-${props.id}`}>
+                <div className="credit-card-confirmation p-5 hidden" id={`credit-card-confirmation-${id}`}>
                     <form className="flex flex-row gap-x-2 items-center text-xl" onSubmit={confirm}>
-                        <label htmlFor={`number-${props.id}`}>Confirm number:&nbsp;</label>
-                        <input type="number" name={`number-${props.id}`} id={`number-${props.id}`} className="h-8 font-normal 
+                        <label htmlFor={`number-${id}`}>Confirm number:&nbsp;</label>
+                        <input type="number" name={`number-${id}`} id={`number-${id}`} className="h-8 font-normal 
                         rounded-md"/>
-                        <label htmlFor={`cvc${props.id}`}>CVC</label>
-                        <input type="password" name={`cvc-${props.id}`} id={`cvc-${props.id}`} className="w-20 h-8 rounded-md font-normal"
+                        <label htmlFor={`cvc${id}`}>CVC</label>
+                        <input type="password" name={`cvc-${id}`} id={`cvc-${id}`} className="w-20 h-8 rounded-md font-normal"
                         onChange={e=>{
                             if(e.target.value.length > 3){
                                 e.preventDefault();
