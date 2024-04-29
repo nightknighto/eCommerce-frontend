@@ -13,20 +13,20 @@ interface CreditCardProps {
 
 const CreditCard = ({ id, setLoader, setBgDisplay, closeConfirm, setCloseConfirm, setShowOtpForm }: CreditCardProps)=>{
 
-    const [confirmation,setConfirmation] = useState("hidden")
-    const [numberBorder,setNumberBorder] = useState("border-slate-500");
-    const [cvcBorder,setCvcBorder] = useState("border-slate-500");
-    const [numberIndicator,setNumberIndictor] = useState("hidden")
-    const [cvcIndicator,setCvcIndicator] = useState("hidden")
+    const [confirmation,setConfirmation] = useState(false)
+    const [numberBorder,setNumberBorder] = useState(false);
+    const [cvcBorder,setCvcBorder] = useState(false);
+    const [numberIndicator,setNumberIndictor] = useState(false)
+    const [cvcIndicator,setCvcIndicator] = useState(false)
 
     const showConfirmHandler = (e:any)=>{
         setCloseConfirm(id);
-        setConfirmation("block")
+        setConfirmation(true)
     }
 
     useEffect(()=>{
         if(closeConfirm !== id){
-            setConfirmation("hidden")
+            setConfirmation(false)
         }
     },[closeConfirm])
     
@@ -37,27 +37,27 @@ const CreditCard = ({ id, setLoader, setBgDisplay, closeConfirm, setCloseConfirm
         const cvc = Array.from(form)[1][1] as string; 
         let flag = false;
         if(number.length !== 16){
-            setNumberBorder("border-red")
-            setNumberIndictor("block")
+            setNumberBorder(true)
+            setNumberIndictor(true)
             flag =true;
         }else{
-            setNumberBorder("border-slate-500")
-            setNumberIndictor("hidden")
+            setNumberBorder(false)
+            setNumberIndictor(false)
         } 
         if(cvc.length !== 3){
-            setCvcBorder("border-red")
-            setCvcIndicator("block")
+            setCvcBorder(true)
+            setCvcIndicator(true)
             flag =true;
         }else{
-            setCvcIndicator("hidden")
-            setCvcBorder("border-slate-500")
+            setCvcIndicator(false)
+            setCvcBorder(false)
         }
         if(flag) return;
 
         setBgDisplay(true)
         setLoader(true)
         setTimeout(()=>{
-            setLoader(true)
+            setLoader(false)
             setShowOtpForm(true);
         },1200)
     }
@@ -79,12 +79,12 @@ const CreditCard = ({ id, setLoader, setBgDisplay, closeConfirm, setCloseConfirm
                     <div className="w-35 text-center">xxxx-xxxx-xxxx-2343</div>
                     <div className="w-35 text-center">08-2026</div>
                 </div>
-                <div className={`credit-card-confirmation p-5 ${confirmation}`} id={`credit-card-confirmation-${id}`}>
+                <div className={`credit-card-confirmation p-5 ${confirmation?"block":"hidden"}`} id={`credit-card-confirmation-${id}`}>
                     <form className="flex flex-row gap-x-2 items-center text-xl" onSubmit={confirm}>
                         <label htmlFor={`number-${id}`}>Confirm number:&nbsp;</label>
-                        <input type="number" name={`number-${id}`} id={`number-${id}`} className={`h-8 font-normal rounded-md border-1 ${numberBorder}`}/>
+                        <input type="number" name={`number-${id}`} id={`number-${id}`} className={`h-8 font-normal rounded-md border-1 ${numberBorder?"border-red":"border-slate-500"}`}/>
                         <label htmlFor={`cvc${id}`}>CVC</label>
-                        <input type="password" name={`cvc-${id}`} id={`cvc-${id}`} className={`h-8 font-normal rounded-md border-1 ${cvcBorder}`}
+                        <input type="password" name={`cvc-${id}`} id={`cvc-${id}`} className={`h-8 font-normal rounded-md border-1 ${cvcBorder?"border-red":"border-slate-500"}`}
                         onChange={e=>{
                             if(e.target.value.length > 3){
                                 e.preventDefault();
@@ -94,8 +94,8 @@ const CreditCard = ({ id, setLoader, setBgDisplay, closeConfirm, setCloseConfirm
                         <input type="submit" value={"Confirm"} className="bg-sky-500 h-8 w-30 rounded-md 
                         text-white cursor-pointer hover:shadow-lg"/>
                     </form>
-                    <p className={`${numberIndicator} text-red`}>&#9888;&nbsp;Enter a valid credit card number</p>
-                    <p className={`${cvcIndicator} text-red`}>&#9888;&nbsp;Enter a valid cvc</p>
+                    <p className={`${numberIndicator?"block":"hidden"} text-red`}>&#9888;&nbsp;Enter a valid credit card number</p>
+                    <p className={`${cvcIndicator?"block":"hidden"} text-red`}>&#9888;&nbsp;Enter a valid cvc</p>
                 </div>
             </div>
         </>

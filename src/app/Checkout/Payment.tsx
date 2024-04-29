@@ -11,15 +11,15 @@ interface PaymentProps {
 const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:PaymentProps)=>{
 
     const [creditCardDisplay,setCreditCardDisplay] = useState(false);
-    const [credeitNumberBorder,setCreditNumberBorder] = useState("border-slate-500")
-    const [credeitNameBorder,setCreditNameBorder] = useState("border-slate-500")
-    const [cvcBorder,setCvcBorder] = useState("border-slate-500")
+    const [credeitNumberBorder,setCreditNumberBorder] = useState(false) //false=>border-slate-500
+    const [credeitNameBorder,setCreditNameBorder] = useState(false)
+    const [cvcBorder,setCvcBorder] = useState(false)
     const [invalidInfoPropmpt,setinvalidInfoPropmpt] = useState(false)
     const [closeConfirm,setCloseConfirm] = useState(0);
-    const [position,setPosition] = useState('translate-x-full')
+    const [position,setPosition] = useState(false) //false => translate-x-full
 
     useEffect(()=>{
-        setPosition("")
+        setPosition(true)
     },[])
 
     const methodHandler = (open: boolean)=>{
@@ -41,22 +41,22 @@ const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:Payme
             const value = Array.from(values)[i][1] as string;
             if(i === 0){
                 if(value.length !== 16){
-                    setCreditNumberBorder("border-red");
+                    setCreditNumberBorder(true);
                     flag = true;
-                }else setCreditNumberBorder("border-slate-500");
+                }else setCreditNumberBorder(false);
             }
             if(i === 1){
                 if(format.test(value) || value.length === 0){
-                    setCreditNameBorder("border-red");
+                    setCreditNameBorder(true);
                     flag = true;
-                }else setCreditNameBorder("border-slate-500")
+                }else setCreditNameBorder(false)
             }
             if(i === 4){
                 console.log(value)
                 if(value.length !== 3){
-                    setCvcBorder("border-red");
+                    setCvcBorder(true);
                     flag = true;
-                }else setCvcBorder("border-slate-500");
+                }else setCvcBorder(false);
             }
         }
         if(flag){
@@ -81,7 +81,7 @@ const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:Payme
 
     return (
         <>
-            <div id="payment-step" className={`payment flex flex-col gap-y-5 w-4/6 p-3 ${position} duration-500`}>
+            <div id="payment-step" className={`payment flex flex-col gap-y-5 w-4/6 p-3 ${position?"":"translate-x-full"} duration-500`}>
                 <div className="text-xl font-semibold">Enter Your Billing Info</div>
                 <div className="Billing flex flex-col gap-y-5">
                     <div className="cod">
@@ -109,12 +109,12 @@ const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:Payme
                                         <div className="flex flex-row items-center gap-x-2">
                                             <label htmlFor="new-card-number" className="w-35">Card number</label>
                                             <input type="number" name="new-card-number" id="new-card-number" 
-                                            className={`h-10 w-50 rounded-md border-1 ${credeitNumberBorder}`}/>
+                                            className={`h-10 w-50 rounded-md border-1 ${credeitNumberBorder?"border-red":"border-slate-500"}`}/>
                                         </div>
                                         <div className="flex flex-row items-center gap-x-2">
                                             <label htmlFor="new-card-name" className="w-35">Name on card</label>
                                             <input type="text" name="new-card-name" id="new-card-name" 
-                                            className={`h-10 w-50 rounded-md border-1 ${credeitNameBorder}`}/>
+                                            className={`h-10 w-50 rounded-md border-1 ${credeitNameBorder?"border-red":"border-slate-500"}`}/>
                                         </div>
                                         <div className="flex flex-row items-center gap-x-2">
                                             <label htmlFor="new-card-exp-date" className="w-35">Expiration date</label>
@@ -130,7 +130,7 @@ const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:Payme
                                         <div className="flex flex-row items-center gap-x-2">
                                             <label htmlFor="new-card-cvc" className="w-35">CVC</label>
                                             <input type="password" name="new-card-cvc" id="new-card-cvc"
-                                            className={`h-10 w-50 rounded-md border-1 ${cvcBorder}`} onChange={e=>{
+                                            className={`h-10 w-50 rounded-md border-1 ${cvcBorder?"border-red":"border-slate-500"}`} onChange={e=>{
                                                 if(e.target.value.length > 3){
                                                     // console.log(e.target.value.substring(0,3))
                                                     e.target.value = e.target.value.substring(0,3);
