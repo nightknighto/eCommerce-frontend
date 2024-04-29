@@ -2,21 +2,21 @@ import React, { FormEvent, useState } from "react";
 import Link from "next/link";
 
 interface ConfirmCardProps {
-    setStep: Function,
-    setShowOtpForm: Function,
-    setBgDisplay: Function
+    setStep: (f:(s:number)=>number)=>void,
+    setShowOtpForm: (b:boolean)=>void,
+    setBgDisplay: (b:boolean)=>void
 }
 
 const ConfirmCard = ({ setStep, setShowOtpForm, setBgDisplay }:ConfirmCardProps)=>{
 
-    const [otpBorder,setOtpBorder] = useState("border-slate-500");
+    const [otpBorder,setOtpBorder] = useState(false);
 
     const submitOrder= (e: FormEvent)=>{
         e.preventDefault();
         const form = e.target as HTMLFormElement;
         const otp = Array.from(new FormData(form))[0][1] as string;
         if(otp.length === 0){
-            setOtpBorder("border-red")
+            setOtpBorder(true)
         }else{
             setStep((x: number)=>++x);
             setShowOtpForm(false);
@@ -33,7 +33,7 @@ const ConfirmCard = ({ setStep, setShowOtpForm, setBgDisplay }:ConfirmCardProps)
                 </div>
                 <div className="flex flex-row items-center gap-x-3">
                     <label htmlFor="otp" className="text-xl">Enter OTP:</label>
-                    <input type="number" name="otp" id="otp" className={`h-9 rounded-md text-xl border-1 ${otpBorder}`}/>
+                    <input type="number" name="otp" id="otp" className={`h-9 rounded-md text-xl border-1 ${otpBorder?"border-red":"border-slate-500"}`}/>
                 </div>
                 <input type="submit" className="bg-sky-500 text-white text-xl font-semibold h-10 rounded-md 
                 cursor-pointer"/>

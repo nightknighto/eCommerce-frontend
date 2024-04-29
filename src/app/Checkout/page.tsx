@@ -1,6 +1,6 @@
 "use client"
 
-import React, { ReactEventHandler, useEffect, useState } from "react";
+import React, { MouseEventHandler, MouseEvent, ReactEventHandler, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import CreditCard from "./CreditCard";
@@ -15,16 +15,14 @@ const Checkout = () =>{
     const steps = {1:"address",2:"payment",3:"done"};
     let [step,setStep] = useState(1);
     const [nextDisplay,setNextDisplay] = useState(true);
-    const [prevDisplay,setprevDisplay] = useState(true);
     const [bgDispaly,setBgDisplay] = useState(false);
-    const [loaderDisplay,setLoader] = useState(false)
+    const [loaderDisplay,setLoader] = useState(false);
     const [showOtpForm,setShowOtpForm] = useState(false);
 
-
-    const next = (e:any)=>{
+    const next = (e:MouseEvent)=>{
         setStep(s=>++s);
     }
-    const prev = (e:any)=>{
+    const prev = (e:MouseEvent)=>{
         setStep(s=>--s);
     }
 

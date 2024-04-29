@@ -1,25 +1,23 @@
-import React, { MouseEventHandler, useEffect, useState } from "react";
+import React, { MouseEventHandler, MouseEvent, useEffect, useState, FormEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
 interface CreditCardProps {
     id: number;
-    setLoader: Function,
-    setBgDisplay: Function,
-    closeConfirm: Number,
-    setCloseConfirm: Function,
-    setShowOtpForm: Function
+    setLoader: (b:boolean)=>void,
+    setBgDisplay: (b:boolean)=>void,
+    closeConfirm: number,
+    setCloseConfirm: (id:number)=>void,
+    setShowOtpForm: (b:boolean)=>void
 }
 
 const CreditCard = ({ id, setLoader, setBgDisplay, closeConfirm, setCloseConfirm, setShowOtpForm }: CreditCardProps)=>{
 
-    const [confirmation,setConfirmation] = useState(false)
+    const [confirmation,setConfirmation] = useState(false);
     const [numberBorder,setNumberBorder] = useState(false);
     const [cvcBorder,setCvcBorder] = useState(false);
-    const [numberIndicator,setNumberIndictor] = useState(false)
-    const [cvcIndicator,setCvcIndicator] = useState(false)
 
-    const showConfirmHandler = (e:any)=>{
+    const showConfirmHandler = (e:MouseEvent)=>{
         setCloseConfirm(id);
         setConfirmation(true)
     }
@@ -30,7 +28,7 @@ const CreditCard = ({ id, setLoader, setBgDisplay, closeConfirm, setCloseConfirm
         }
     },[closeConfirm])
     
-    const confirm = (e:any)=>{
+    const confirm = (e:FormEvent)=>{
         e.preventDefault();
         const form = new FormData(e.target as HTMLFormElement);
         const number = Array.from(form)[0][1] as string;
@@ -38,18 +36,14 @@ const CreditCard = ({ id, setLoader, setBgDisplay, closeConfirm, setCloseConfirm
         let flag = false;
         if(number.length !== 16){
             setNumberBorder(true)
-            setNumberIndictor(true)
-            flag =true;
+                flag =true;
         }else{
             setNumberBorder(false)
-            setNumberIndictor(false)
         } 
         if(cvc.length !== 3){
             setCvcBorder(true)
-            setCvcIndicator(true)
             flag =true;
         }else{
-            setCvcIndicator(false)
             setCvcBorder(false)
         }
         if(flag) return;
@@ -94,8 +88,8 @@ const CreditCard = ({ id, setLoader, setBgDisplay, closeConfirm, setCloseConfirm
                         <input type="submit" value={"Confirm"} className="bg-sky-500 h-8 w-30 rounded-md 
                         text-white cursor-pointer hover:shadow-lg"/>
                     </form>
-                    <p className={`${numberIndicator?"block":"hidden"} text-red`}>&#9888;&nbsp;Enter a valid credit card number</p>
-                    <p className={`${cvcIndicator?"block":"hidden"} text-red`}>&#9888;&nbsp;Enter a valid cvc</p>
+                    <p className={`${numberBorder?"block":"hidden"} text-red`}>&#9888;&nbsp;Enter a valid credit card number</p>
+                    <p className={`${cvcBorder?"block":"hidden"} text-red`}>&#9888;&nbsp;Enter a valid cvc</p>
                 </div>
             </div>
         </>

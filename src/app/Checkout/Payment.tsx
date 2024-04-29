@@ -3,10 +3,10 @@ import Link from "next/link";
 import CreditCard from "./CreditCard";
 
 interface PaymentProps {
-    setNextDisplay:Function,
-    setBgDisplay:Function,
-    setLoader:Function,
-    setShowOtpForm: Function
+    setNextDisplay:(b:boolean)=>void,
+    setBgDisplay:(b:boolean)=>void,
+    setLoader:(b:boolean)=>void,
+    setShowOtpForm: (b:boolean)=>void
 }
 const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:PaymentProps)=>{
 
