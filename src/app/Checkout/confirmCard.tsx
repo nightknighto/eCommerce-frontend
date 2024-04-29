@@ -20,7 +20,7 @@ const ConfirmCard = ({ setStep, setShowOtpForm, setBgDisplay }:ConfirmCardProps)
         }else{
             setStep((x: number)=>++x);
             setShowOtpForm(false);
-            setBgDisplay("hidden")
+            setBgDisplay(false)
         }
     }
 

@@ -10,11 +10,11 @@ interface PaymentProps {
 }
 const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:PaymentProps)=>{
 
-    const [creditCardDisplay,setCreditCardDisplay] = useState("hidden");
+    const [creditCardDisplay,setCreditCardDisplay] = useState(false);
     const [credeitNumberBorder,setCreditNumberBorder] = useState("border-slate-500")
     const [credeitNameBorder,setCreditNameBorder] = useState("border-slate-500")
     const [cvcBorder,setCvcBorder] = useState("border-slate-500")
-    const [invalidInfoPropmpt,setinvalidInfoPropmpt] = useState("hidden")
+    const [invalidInfoPropmpt,setinvalidInfoPropmpt] = useState(false)
     const [closeConfirm,setCloseConfirm] = useState(0);
     const [position,setPosition] = useState('translate-x-full')
 
@@ -23,15 +23,12 @@ const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:Payme
     },[])
 
     const methodHandler = (open: boolean)=>{
-        const nextBtn = document.getElementById("next");
-        if(!nextBtn?.classList.contains("hidden"))
-            nextBtn?.classList.toggle("hidden")
         if(open){
-            setCreditCardDisplay("flex");
-            setNextDisplay('hidden')
+            setCreditCardDisplay(true);
+            setNextDisplay(false)
         }else{
-            setCreditCardDisplay("hidden");
-            setNextDisplay('block')
+            setCreditCardDisplay(false);
+            setNextDisplay(true)
         }
     }
 
@@ -63,15 +60,15 @@ const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:Payme
             }
         }
         if(flag){
-            setinvalidInfoPropmpt("block")
+            setinvalidInfoPropmpt(true)
             return;
         }
 
-        setBgDisplay("block")
-        setLoader("block")
+        setBgDisplay(true)
+        setLoader(true)
         setTimeout(()=>{
             // setBgDisplay("hidden")
-            setLoader("hidden")
+            setLoader(false)
             setShowOtpForm(true)
         },1800)
 
@@ -79,7 +76,7 @@ const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:Payme
     }
 
     useEffect(()=>{
-        setNextDisplay('block')
+        setNextDisplay(true)
     },[])
 
     return (
@@ -101,7 +98,7 @@ const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:Payme
                             <input type="radio" name="payment-method" onChange={e => methodHandler(true)} id="credit-card"/>
                             <label htmlFor="credit-card" className="font-semibold">Credit card</label>
                         </div>
-                        <div className={`credit-card-div flex flex-col w-full gap-y-3 mt-3 text-xl ${creditCardDisplay}`} id="credit-card-div">
+                        <div className={`credit-card-div flex flex-col w-full gap-y-3 mt-3 text-xl ${creditCardDisplay ? "flex":"hidden"}`} id="credit-card-div">
                             <div className="card flex flex-row justify-between">
                                 <div className="add-new-card">
                                     <div className="flex flex-row items-center gap-x-3">
@@ -142,7 +139,7 @@ const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:Payme
                                         </div>
                                         <input type="submit" value={"Add card"} className="bg-sky-500 text-white rounded-md 
                                             p-1 text-2xl hover:bg-sky-600 cursor-pointer duration-500"/>
-                                        <p id="indicator" className={`text-red ${invalidInfoPropmpt}`}>&#9888;&nbsp;Please enter valid information</p>
+                                        <p id="indicator" className={`text-red ${invalidInfoPropmpt?"block":"hidden"}`}>&#9888;&nbsp;Please enter valid information</p>
                                     </form>
                                 </div>
                                 <div className="saved-cards w-fit flex flex-col">

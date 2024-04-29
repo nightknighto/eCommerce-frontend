@@ -54,10 +54,10 @@ const CreditCard = ({ id, setLoader, setBgDisplay, closeConfirm, setCloseConfirm
         }
         if(flag) return;
 
-        setBgDisplay("block")
-        setLoader("block")
+        setBgDisplay(true)
+        setLoader(true)
         setTimeout(()=>{
-            setLoader("hidden")
+            setLoader(true)
             setShowOtpForm(true);
         },1200)
     }
