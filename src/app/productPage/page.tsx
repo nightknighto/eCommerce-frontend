@@ -4,12 +4,13 @@ import React, { useState, MouseEvent} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Review from "./Review";
-import FillStar from "./fill";
-import NoFillStar from "./noFill";
+import ReviewWindow from "./ReviewWindow";
+import RelatedItem from "./RelatedItem";
 
 const ProductPage = (props:Object) =>{
 
     const [reviewDisplay,setReviewDisplay] = useState(false);
+    const [rate,setRate] = useState(4)
     const showReviewWindow = (show:boolean)=>{
         setReviewDisplay(show);
     }
@@ -62,53 +63,13 @@ const ProductPage = (props:Object) =>{
                     <div className="cart-side flex flex-col flex-wrap justify-between px-5 py-5 gap-x-10 gap-y-6 w-fit h-full" style={{}}>
                         <div className="related-items flex flex-col">
                             <span className="text-2xl" style={{fontSize:"1.5rem",fontWeight:"600"}}>Related Items:</span>
-                            <div className="r-items-container flex flex-row items-center h-full bg-slate-300 text-xl gap-x-5 rounded-lg">
-                                <button className="h-40 hover:bg-sky-400 hover:text-white duration-500 py-5 w-10 text-2xl rounded-r-lg">&#11207;</button>
-                                <div id="item" className="item flex flex-col justify-center py-6 cursor-pointer">
-                                    <Image
-                                        src={"/images/product/product-01.png"}
-                                        alt="profile cover"
-                                        className="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center"
-                                        width={970}
-                                        height={260}
-                                        style={{
-                                            width: "80px",
-                                            height: "auto",
-                                        }}
-                                    />
-                                    <span className="text-center">Product-x</span>
-                                </div>
-                                <div id="item" className="item flex flex-col justify-center py-6 cursor-pointer hover:translate-y-0.5
-                                hover:translate-x-0.5 duration-500">
-                                    <Image
-                                        src={"/images/product/product-01.png"}
-                                        alt="profile cover"
-                                        className="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center"
-                                        width={970}
-                                        height={260}
-                                        style={{
-                                            width: "120px",
-                                            height: "auto",
-                                        }}
-                                    />
-                                    <span className="text-center font-semibold">Product-y</span>
-                                </div>
-                                <div id="item" className="item flex flex-col justify-center py-6 cursor-pointer">
-                                    <Image
-                                        src={"/images/product/product-01.png"}
-                                        alt="profile cover"
-                                        className="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center"
-                                        width={970}
-                                        height={260}
-                                        style={{
-                                            width: "80px",
-                                            height: "auto",
-                                        }}
-                                    />
-                                    <span className="text-center">Product-z</span>
-                                </div>
-                                <button className="h-40 hover:bg-sky-400 hover:text-white duration-500 py-5 w-10 text-2xl rounded-l-lg">&#11208;</button>
-                                {/* <button className="h-full bg-sky-300">dd</button> */}
+                            <div className="r-items-container flex flex-row items-center h-full
+                             bg-slate-300 w-full text-xl px-10 py-5 box-border gap-x-6 items-center rounded-lg" style={{width:"400px" ,height:"140px"}}>
+                                {/* <button className="h-40 hover:bg-sky-400 hover:text-white duration-500 py-5 w-10 text-2xl rounded-r-lg">&#11207;</button> */}
+                                <RelatedItem name="product1" image="abc"/>
+                                <RelatedItem name="product1" image="abc"/>
+                                <RelatedItem name="product1" image="abc"/>
+                                {/* <button className="h-40 hover:bg-sky-400 hover:text-white duration-500 py-5 w-10 text-2xl rounded-l-lg">&#11208;</button> */}
                             </div>
                         </div>
                         <div className="cart-checkout-div text-2xl bg-slate-300 rounded-lg box-border shadow-lg shadow-slate-300">
@@ -165,65 +126,65 @@ const ProductPage = (props:Object) =>{
                         <div className="customer-reviews flex flex-col gap-y-5">
                             <div className="text-xl font-bold">Customer Reviews</div>
                             <div className="customer-reviews-div flex flex-col gap-y-5">
-                                <div className="flex flex-row">
-                                    <FillStar></FillStar>
-                                    <FillStar></FillStar>
-                                    <FillStar></FillStar>
-                                    <FillStar></FillStar>
-                                    <NoFillStar></NoFillStar>
+                                <div className="flex flex-row items-center">
+                                    <div className="text-3xl" style={{color:"#ffa534"}}>&#9733;</div>
+                                    <div className="text-3xl" style={{color:"#ffa534"}}>&#9733;</div>
+                                    <div className="text-3xl" style={{color:"#ffa534"}}>&#9733;</div>
+                                    <div className="text-3xl" style={{color:"#ffa534"}}>&#9733;</div>
+                                    <div className="text-3xl" style={{color:"#ffa534"}}>&#9734;</div>
                                     <div className="text-md font-semibold ml-2">4 out of 5</div>
                                 </div>
                                 <div className="reviews-stats flex flex-col gap-y-4">
-                                    <div className="1star flex flex-row items-center">
-                                        <FillStar></FillStar>
-                                        <FillStar></FillStar>
-                                        <FillStar></FillStar>
-                                        <FillStar></FillStar>
-                                        <FillStar></FillStar>
+                                        <div className="1star flex flex-row items-center">
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9733;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9733;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9733;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9733;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9733;</div>
                                         <div className="flex flex-row ml-2 h-4 w-60 bg-slate-300 rounded-md">
                                             <div className="rounded-md" style={{backgroundColor:"#ffa534",marginLeft:"-4px",width:"50%"}}>&nbsp;</div>
                                         </div>
                                         <span className="ml-2 text-md font-black">50%</span>
                                     </div>
                                     <div className="1star flex flex-row items-center">
-                                        <FillStar></FillStar>
-                                        <FillStar></FillStar>
-                                        <FillStar></FillStar>
-                                        <FillStar></FillStar>
-                                        <NoFillStar></NoFillStar>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9733;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9733;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9733;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9733;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9734;</div>
                                         <div className="flex flex-row ml-2 h-4 w-60 bg-slate-300 rounded-md">
                                             <div className="rounded-md" style={{backgroundColor:"#ffa534",marginLeft:"-4px",width:"50%"}}>&nbsp;</div>
                                         </div>
                                         <span className="ml-2 text-md font-black">50%</span>
                                     </div>
                                     <div className="1star flex flex-row items-center">
-                                        <FillStar></FillStar>
-                                        <FillStar></FillStar>
-                                        <FillStar></FillStar>
-                                        <NoFillStar></NoFillStar>
-                                        <NoFillStar></NoFillStar>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9733;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9733;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9733;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9734;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9734;</div>
                                         <div className="flex flex-row ml-2 h-4 w-60 bg-slate-300 rounded-md">
                                             <div className="rounded-md" style={{backgroundColor:"#ffa534",marginLeft:"-4px",width:"50%"}}>&nbsp;</div>
                                         </div>
                                         <span className="ml-2 text-md font-black">50%</span>
                                     </div>
                                     <div className="1star flex flex-row items-center">
-                                        <FillStar></FillStar>
-                                        <FillStar></FillStar>
-                                        <NoFillStar></NoFillStar>
-                                        <NoFillStar></NoFillStar>
-                                        <NoFillStar></NoFillStar>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9733;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9733;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9734;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9734;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9734;</div>
                                         <div className="flex flex-row ml-2 h-4 w-60 bg-slate-300 rounded-md">
                                             <div className="rounded-md" style={{backgroundColor:"#ffa534",marginLeft:"-4px",width:"50%"}}>&nbsp;</div>
                                         </div>
                                         <span className="ml-2 text-md font-black">50%</span>
                                     </div>
                                     <div className="1star flex flex-row items-center">
-                                        <FillStar></FillStar>
-                                        <NoFillStar></NoFillStar>
-                                        <NoFillStar></NoFillStar>
-                                        <NoFillStar></NoFillStar>
-                                        <NoFillStar></NoFillStar>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9733;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9734;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9734;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9734;</div>
+                                            <div className="text-3xl" style={{color:"#ffa534"}}>&#9734;</div>
                                         <div className="flex flex-row ml-2 h-4 w-60 bg-slate-300 rounded-md">
                                             <div className="rounded-md" style={{backgroundColor:"#ffa534",marginLeft:"-4px",width:"50%"}}>&nbsp;</div>
                                         </div>
@@ -245,37 +206,9 @@ const ProductPage = (props:Object) =>{
                     </div>
                 </div>
             </div>
-            <div className={`review-window ${reviewDisplay?"flex":"hidden"} flex-col rounded-md`} id="add-review">
-                <div className="text-2xl font-bold text-white text-center w-full border-b-2 border-black
-                bg-slate-500 h-10 flex flex-col justify-center rounded-t-md">Make Review</div>
-                <form className="flex flex-col justify-between gap-y-5 h-full w-full py-5 px-5">
-                    <div className="font-semibold">
-                        <span className="text-xl font-semibold">Profile:&nbsp;</span>
-                        <span className="text-xl">Reviewer 2020</span>
-                    </div>
-                    <div className="flex flex-row items-center text-xl font-semibold">
-                        <span>Rating:&nbsp;</span>
-                        <div className="flex flex-row gap-x-1">
-                            <div className="cursor-pointer" style={{color:"#ffa534"}}>&#9733;</div>
-                            <div className="cursor-pointer" style={{color:"#ffa534"}}>&#9734;</div>
-                            <div className="cursor-pointer" style={{color:"#ffa534"}}>&#9734;</div>
-                            <div className="cursor-pointer" style={{color:"#ffa534"}}>&#9734;</div>
-                            <div className="cursor-pointer" style={{color:"#ffa534"}}>&#9734;</div>
-                        </div>
-
-                    </div>
-                    <div className="flex flex-col text-xl ">
-                        <label className="font-semibold" htmlFor="title">Title</label>
-                        <input className="text-2xl text-black rounded-md mt-1" type="text" id="title" />
-                    </div>
-                    <div className="flex flex-col text-xl">
-                        <label className="font-semibold" htmlFor="description">Description</label>
-                        <textarea className="text-2xl text-black rounded-md mt-1" name="" id="description" cols={30} rows={10} style={{resize:"none"}}></textarea>
-                    </div>
-                    <input type="submit" className="bg-slate-200 m-auto text-black text-2xl font-semibold rounded-md w-50 
-                    shadow-sm shadow-slate-300 h-10 hover:shadow-md hover:bg-slate-300 duration-500 cursor-pointer"/>
-                </form>
-            </div>
+            {reviewDisplay?(
+                <ReviewWindow productId={1}/>
+            ):""}
             <div className={`bg ${reviewDisplay?"block":"hidden"} fixed h-full w-full top-0 left-0 bg-black opacity-50`} id="bg" onClick={e=>showReviewWindow(false)}></div>
             
         </>
