@@ -2,12 +2,12 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-interface relatedItemProps {
+interface RelatedItemProps {
     name: string,
     image: string
 }
 
-const RelatedItem = ({name, image}:relatedItemProps)=>{
+const RelatedItem = ({name}:RelatedItemProps)=>{
     return(
         <div id="item" className="item flex flex-col w-30 justify-center py-6 cursor-pointer hover:translate-y-0.5 hover:translate-x-0.5 duration-500">
         <Image

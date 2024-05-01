@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Span } from "next/dist/trace";
 
-interface reviewWindowProps {
+interface ReviewWindowProps {
     productId: number,
 }
 
-const ReviewWindow = ({productId}:reviewWindowProps)=>{
+const ReviewWindow = ({productId}:ReviewWindowProps)=>{
 
     const [rate,setRate] = useState(0);
 
