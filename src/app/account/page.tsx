@@ -26,11 +26,12 @@ const Account = () => {
                 </div>
                 <div className="w-full border-slate-200 border-2 flex flex-col rounded-md p-4">
                     <p className="text-xl font-semibold mb-4">Statistics</p>
-                    <div className="flex gap-x-4 mb-8">
+                    <div className="flex flex-wrap gap-x-4 mb-8">
                         <StatsCard topText="Items listed" bottomText="24"/>
                         <StatsCard topText="Items sold" bottomText="174"/>
                         <StatsCard topText="Total revenue" bottomText="$3,472"/>
-                        <StatsCard topText="Remaining stock" bottomText="846"/>
+                        <StatsCard topText="Rating" bottomText="4.9/5"/>
+                        <StatsCard topText="Out of stock" bottomText="17"/>
                     </div>
                     
                     <p className="text-xl font-semibold mb-4">Listed Products</p>
