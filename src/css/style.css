@@ -244,49 +244,13 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .review-window{
     background-color: #fff;
-    display: none;
+    /* display: none; */
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
     width: 50vw;
-    /* height: 90vh; */
     z-index: 1;
-}
-
-.bg{
-    background-color: rgba(0,0,0,0.5);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: none;
-}
-
-.outer-checkout{
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100%;
-}
-
-.checkout-page{
-    position: relative;
-    /* left: 50%; */
-    top: 50%;
-    transform: translateY(-50%);
-    width: 90%;
-    /* height: 90vh; */
-    overflow-x: hidden;
-}
-
-.checkout{
-    position: relative;
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: 70vh;
 }
 
 .loader {
@@ -307,33 +271,6 @@ input[type="search"]::-webkit-search-cancel-button {
     100% { transform: rotate(360deg); }
 }
 
-/* .address{
-    position: relative;
-    left: -100vw;
-    transition: 0.5s;
-}
-
-.payment{
-    display: none;
-    position: relative;
-    transition: 0.5s;
-
-} */
-
-.credit-card-div{
-    height: 400px;
-    transition: 0.5s;
-}
-
-.cards-container{
-    /* overflow-y: hidden; */
-    display: flex;
-    flex-direction: column;
-    height: 200px;
-    /* background-color: green; */
-    overflow-y: auto;
-}
-
 .cards-container::-webkit-scrollbar{
     width: 5px;
 }
@@ -345,16 +282,6 @@ input[type="search"]::-webkit-search-cancel-button {
 .cards-container::-webkit-scrollbar-thumb{
     background-color: rgb(6 182 212);
 }
-
-/* .done{
-    display: none;
-    position: relative;
-    transition: 0.5s;
-} */
-
-/* .bottom{
-    transition: 0.3s;
-} */
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {

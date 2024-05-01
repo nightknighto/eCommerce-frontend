@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, MouseEvent} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Review from "./Review";
@@ -9,19 +9,9 @@ import NoFillStar from "./noFill";
 
 const ProductPage = (props:Object) =>{
 
-    const showReviewWindow = (e:MouseEvent)=>{
-        const reviewPage = document.getElementById("add-review");
-        const bg = document.getElementById("bg");
-        reviewPage.style.display = "flex";
-        bg.style.display = "block";
-        document.addEventListener("click",(e)=>{
-            // console.log(e.target.id)
-            if(e.target.id === "bg"){
-                reviewPage.style.display = "none";
-                bg.style.display = "none";
-                
-            }
-        })
+    const [reviewDisplay,setReviewDisplay] = useState(false);
+    const showReviewWindow = (show:boolean)=>{
+        setReviewDisplay(show);
     }
 
     return(
@@ -30,7 +20,6 @@ const ProductPage = (props:Object) =>{
                 <div className="flex flex-row items-center justify-between w-full h-fit">
                     <div className="product-side flex flex-row justify-center items-center px-10 box-border gap-x-10 w-fit h-full">
                         <div className="" id="image">
-                            {/* <img src="../../public/images/product/product-02.png" alt="image" /> */}
                             <Image
                                 src={"/images/product/product-01.png"}
                                 alt="profile cover"
@@ -243,7 +232,7 @@ const ProductPage = (props:Object) =>{
                                 </div>
                             </div>
                             <button className="border-2 border-black text-xl font-semibold text-black hover:bg-sky-500 
-                            hover:text-white hover:border-sky-500 duration-500" onClick={showReviewWindow}>Add Review</button>
+                            hover:text-white hover:border-sky-500 duration-500" onClick={e=>showReviewWindow(true)}>Add Review</button>
                         </div>
                         <div className="flex flex-col gap-y-5">
                             <Review></Review>
@@ -256,7 +245,7 @@ const ProductPage = (props:Object) =>{
                     </div>
                 </div>
             </div>
-            <div className="review-window flex flex-col rounded-md" id="add-review">
+            <div className={`review-window ${reviewDisplay?"flex":"hidden"} flex-col rounded-md`} id="add-review">
                 <div className="text-2xl font-bold text-white text-center w-full border-b-2 border-black
                 bg-slate-500 h-10 flex flex-col justify-center rounded-t-md">Make Review</div>
                 <form className="flex flex-col justify-between gap-y-5 h-full w-full py-5 px-5">
@@ -281,13 +270,13 @@ const ProductPage = (props:Object) =>{
                     </div>
                     <div className="flex flex-col text-xl">
                         <label className="font-semibold" htmlFor="description">Description</label>
-                        <textarea className="text-2xl text-black rounded-md mt-1" name="" id="description" cols="30" rows="10" style={{resize:"none"}}></textarea>
+                        <textarea className="text-2xl text-black rounded-md mt-1" name="" id="description" cols={30} rows={10} style={{resize:"none"}}></textarea>
                     </div>
                     <input type="submit" className="bg-slate-200 m-auto text-black text-2xl font-semibold rounded-md w-50 
                     shadow-sm shadow-slate-300 h-10 hover:shadow-md hover:bg-slate-300 duration-500 cursor-pointer"/>
                 </form>
             </div>
-            <div className="bg" id="bg"></div>
+            <div className={`bg ${reviewDisplay?"block":"hidden"} fixed h-full w-full top-0 left-0 bg-black opacity-50`} id="bg" onClick={e=>showReviewWindow(false)}></div>
             
         </>
     )

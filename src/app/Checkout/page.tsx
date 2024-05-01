@@ -28,11 +28,11 @@ const Checkout = () =>{
 
     return(
         <>
-        <div className="outer-checkout">
-            <div className="checkout-page m-auto bg-white rounded-md flex flex-col justify-between">
+        <div className="outer-checkout absolute h-screen top-0 left-0 w-full">
+            <div className="checkout-page m-auto bg-white rounded-md h-4/5 flex flex-col justify-between relative top-1/2 -translate-y-1/2 w-5/6">
                 <h1 className="h-15 flex flex-row justify-center items-center bg-slate-300 
                 text-2xl font-semibold text-black">Checkout</h1>
-                <div className="checkout flex flex-row" id="checkout-main-container">
+                <div className="checkout overflow-x-hidden overflow-y-auto relative h-full flex flex-row" id="checkout-main-container">
                     <div id="checkout-background" className={`absolute top-0 left-0 w-full h-full bg-white z-10 ${bgDispaly?"block":"hidden"} opacity-50`}></div>
                     <div className={`loader ${loaderDisplay?"block":"hidden"}`}></div>
                     {

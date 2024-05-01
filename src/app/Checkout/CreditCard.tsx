@@ -73,19 +73,19 @@ const CreditCard = ({ id, setLoader, setBgDisplay, closeConfirm, setCloseConfirm
                     <div className="w-35 text-center">xxxx-xxxx-xxxx-2343</div>
                     <div className="w-35 text-center">08-2026</div>
                 </div>
-                <div className={`credit-card-confirmation p-5 ${confirmation?"block":"hidden"}`} id={`credit-card-confirmation-${id}`}>
+                <div className={`credit-card-confirmation p-5 ${confirmation?"flex":"hidden"} flex-row justify-center`} id={`credit-card-confirmation-${id}`}>
                     <form className="flex flex-row gap-x-2 items-center text-xl" onSubmit={confirm}>
                         <label htmlFor={`number-${id}`}>Confirm number:&nbsp;</label>
                         <input type="number" name={`number-${id}`} id={`number-${id}`} className={`h-8 font-normal rounded-md border-1 ${numberBorder?"border-red":"border-slate-500"}`}/>
-                        <label htmlFor={`cvc${id}`}>CVC</label>
-                        <input type="password" name={`cvc-${id}`} id={`cvc-${id}`} className={`h-8 font-normal rounded-md border-1 ${cvcBorder?"border-red":"border-slate-500"}`}
+                        <label htmlFor={`cvc-${id}`}>CVC</label>
+                        <input type="password" name={`cvc-${id}`} id={`cvc-${id}`} className={`h-8 w-15 font-normal rounded-md border-1 ${cvcBorder?"border-red":"border-slate-500"}`}
                         onChange={e=>{
                             if(e.target.value.length > 3){
                                 e.preventDefault();
                                 e.target.value = e.target.value.substring(0,3);
                             }
                         }}/>
-                        <input type="submit" value={"Confirm"} className="bg-sky-500 h-8 w-30 rounded-md 
+                        <input type="submit" value={"Confirm"} className="bg-sky-500 h-8 w-25 rounded-md 
                         text-white cursor-pointer hover:shadow-lg"/>
                     </form>
                     <p className={`${numberBorder?"block":"hidden"} text-red`}>&#9888;&nbsp;Enter a valid credit card number</p>

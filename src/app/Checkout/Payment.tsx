@@ -98,7 +98,7 @@ const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:Payme
                             <input type="radio" name="payment-method" onChange={e => methodHandler(true)} id="credit-card"/>
                             <label htmlFor="credit-card" className="font-semibold">Credit card</label>
                         </div>
-                        <div className={`credit-card-div flex flex-col w-full gap-y-3 mt-3 text-xl ${creditCardDisplay ? "flex":"hidden"}`} id="credit-card-div">
+                        <div className={`credit-card-div flex-col w-full gap-y-3 mt-3 text-xl h-55 ${creditCardDisplay ? "flex":"hidden"}`} id="credit-card-div">
                             <div className="card flex flex-row justify-between">
                                 <div className="add-new-card">
                                     <div className="flex flex-row items-center gap-x-3">
@@ -132,7 +132,6 @@ const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:Payme
                                             <input type="password" name="new-card-cvc" id="new-card-cvc"
                                             className={`h-10 w-50 rounded-md border-1 ${cvcBorder?"border-red":"border-slate-500"}`} onChange={e=>{
                                                 if(e.target.value.length > 3){
-                                                    // console.log(e.target.value.substring(0,3))
                                                     e.target.value = e.target.value.substring(0,3);
                                                 }
                                             }}/>
@@ -153,7 +152,7 @@ const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:Payme
                                             <div className="w-35 text-center">Number</div>
                                             <div className="w-35 text-center">Expires at</div>
                                         </div>
-                                        <div className="cards-container flex flex-col gap-y-3">
+                                        <div className="cards-container flex flex-col gap-y-2 overflow-y-auto h-55">
                                             <CreditCard id={1} setLoader={setLoader} setShowOtpForm={setShowOtpForm} setBgDisplay={setBgDisplay} closeConfirm={closeConfirm} setCloseConfirm={setCloseConfirm}></CreditCard>
                                             <CreditCard id={2} setLoader={setLoader} setShowOtpForm={setShowOtpForm} setBgDisplay={setBgDisplay} closeConfirm={closeConfirm} setCloseConfirm={setCloseConfirm}></CreditCard>
                                             <CreditCard id={3} setLoader={setLoader} setShowOtpForm={setShowOtpForm} setBgDisplay={setBgDisplay} closeConfirm={closeConfirm} setCloseConfirm={setCloseConfirm}></CreditCard>

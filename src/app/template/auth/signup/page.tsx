@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { FormEvent, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
@@ -16,13 +16,33 @@ import TemplateLayout from "@/components/Layouts/DefaultLayout";
 
 const SignUp: React.FC = () => {
 
-  const submit=(e:MouseEvent)=>{
+  const [url,setUrl] = useState("https://distributed-project-backend.onrender.com/api/auth/register/")
+  const submit= async (e:FormEvent)=>{
     e.preventDefault();
     console.log("submited form")
-    const formValues = e.target;
-    const form = new FormData(formValues);
+    const form = new FormData(e.target as HTMLFormElement);
     const value = Object.fromEntries(form);
+    if(value["password"] !== value["confirm-password"]){
+      console.log("Password aren't equal");
+      return;
+    }else delete value["confirm-password"];
+    value["first_name"] = "Ahmed"
+    value["last_name"] = "Ahmed"
     console.log(value)
+    try{
+
+      const res = await fetch(url,{
+        method:"POST",
+        mode:"cors",
+        headers:{
+          "Content-Type":"application/json",
+        },
+        body:JSON.stringify(value),
+      })
+      console.log(res)
+    }catch(e){
+      console.log(e)
+    }
   }
 
   return (
@@ -194,7 +214,7 @@ const SignUp: React.FC = () => {
                   <div className="relative">
                     <input
                       type="text"
-                      name="name"
+                      name="username"
                       placeholder="Enter your full name"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
@@ -298,7 +318,7 @@ const SignUp: React.FC = () => {
                   <div className="relative">
                     <input
                       type="password"
-                      name="password"
+                      name="confirm-password"
                       placeholder="Re-enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
