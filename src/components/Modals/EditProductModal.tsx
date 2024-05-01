@@ -50,7 +50,6 @@ export default function EditProductModal({ open, onClose, error }: EditProductMo
                             </div>
                             <TextInput
                                 id="description"
-                                type="description"
                                 value={description}
                                 onChange={(event) => setDescription(event.target.value)}
                                 required
@@ -62,7 +61,6 @@ export default function EditProductModal({ open, onClose, error }: EditProductMo
                             </div>
                             <TextInput
                                 id="price"
-                                type="price"
                                 value={price}
                                 onChange={(event) => setPrice(event.target.value)}
                                 required

@@ -3,13 +3,13 @@
 import { Alert, Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
 import { useState } from "react";
 
-type EditProductModalProps = {
+type AddProductModalProps = {
     open: boolean;
     onClose: () => void;
     error: string | null;
 }
 
-export default function AddProductModal({ open, onClose, error }: EditProductModalProps) {
+export default function AddProductModal({ open, onClose, error }: AddProductModalProps) {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
@@ -50,7 +50,6 @@ export default function AddProductModal({ open, onClose, error }: EditProductMod
                             </div>
                             <TextInput
                                 id="description"
-                                type="description"
                                 value={description}
                                 onChange={(event) => setDescription(event.target.value)}
                                 required
@@ -62,7 +61,6 @@ export default function AddProductModal({ open, onClose, error }: EditProductMod
                             </div>
                             <TextInput
                                 id="price"
-                                type="price"
                                 value={price}
                                 onChange={(event) => setPrice(event.target.value)}
                                 required

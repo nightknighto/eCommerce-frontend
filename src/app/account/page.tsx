@@ -3,6 +3,7 @@
 import AccountProductCard from "@/components/Cards/AccountProductCard";
 import MainLayout from "@/components/Layouts/MainLayout";
 import AddProductModal from "@/components/Modals/AddProductModal";
+import ContactAdminsModal from "@/components/Modals/ContactAdminsModal";
 import EditProductModal from "@/components/Modals/EditProductModal";
 import { Button } from "flowbite-react";
 import { useState } from "react";
@@ -19,6 +20,7 @@ const StatsCard = (props: {topText: string, bottomText: string}) => {
 const Account = () => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
+    const [showContactAdminsModal, setContactAdminsModal] = useState(false);
 
     const editProduct = () => {
         setShowEditModal(true);
@@ -26,6 +28,10 @@ const Account = () => {
     
     const addProduct = () => {
         setShowAddModal(true);
+    }
+
+    const contactAdmins = () => {
+        setContactAdminsModal(true);
     }
 
     return (
@@ -39,6 +45,12 @@ const Account = () => {
                             onClick={addProduct}
                         >
                             Add New Product
+                        </Button>
+                        <Button
+                            color="blue"
+                            onClick={contactAdmins}
+                        >
+                            Contact Admins
                         </Button>
                         <Button
                             color="blue"
@@ -75,8 +87,9 @@ const Account = () => {
                     <div className="my-16"></div>
                 </div>
             </div>
-            <EditProductModal open={showEditModal} onClose={() => setShowEditModal(false)} error={""}/>
-            <AddProductModal open={showAddModal} onClose={() => setShowAddModal(false)} error={""}/>
+            <EditProductModal open={showEditModal} onClose={() => setShowEditModal(false)} error={null}/>
+            <AddProductModal open={showAddModal} onClose={() => setShowAddModal(false)} error={null}/>
+            <ContactAdminsModal open={showContactAdminsModal} onClose={() => setContactAdminsModal(false)} error={null}/>
         </MainLayout>
     );
 }
