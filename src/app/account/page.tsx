@@ -2,9 +2,8 @@
 
 import ProductCard from "@/components/Cards/ProductCard";
 import MainLayout from "@/components/Layouts/MainLayout";
-import AddProductModal from "@/components/Modals/AddProductModal";
+import ProductModal from "@/components/Modals/ProductModal";
 import ContactAdminsModal from "@/components/Modals/ContactAdminsModal";
-import EditProductModal from "@/components/Modals/EditProductModal";
 import { Button } from "flowbite-react";
 import { useState } from "react";
 
@@ -87,8 +86,8 @@ const Account = () => {
                     <div className="my-16"></div>
                 </div>
             </div>
-            <EditProductModal open={showEditModal} onClose={() => setShowEditModal(false)} error={null}/>
-            <AddProductModal open={showAddModal} onClose={() => setShowAddModal(false)} error={null}/>
+            <ProductModal type="edit" open={showEditModal} onClose={() => setShowEditModal(false)} error={null}/>
+            <ProductModal type="add" open={showAddModal} onClose={() => setShowAddModal(false)} error={null}/>
             <ContactAdminsModal open={showContactAdminsModal} onClose={() => setContactAdminsModal(false)} error={null}/>
         </MainLayout>
     );
