@@ -1,6 +1,6 @@
 "use client";
 
-import AccountProductCard from "@/components/Cards/AccountProductCard";
+import ProductCard from "@/components/Cards/ProductCard";
 import MainLayout from "@/components/Layouts/MainLayout";
 import AddProductModal from "@/components/Modals/AddProductModal";
 import ContactAdminsModal from "@/components/Modals/ContactAdminsModal";
@@ -72,16 +72,16 @@ const Account = () => {
                     
                     <p className="text-xl font-semibold mb-4">Listed Products</p>
                     <div className="flex flex-wrap gap-x-2 mb-8">
-                        <AccountProductCard onClick={editProduct}/>
-                        <AccountProductCard onClick={editProduct}/>
-                        <AccountProductCard onClick={editProduct}/>
-                        <AccountProductCard onClick={editProduct}/>
+                        <ProductCard onClick={editProduct} type="edit"/>
+                        <ProductCard onClick={editProduct} type="edit"/>
+                        <ProductCard onClick={editProduct} type="edit"/>
+                        <ProductCard onClick={editProduct} type="edit"/>
                     </div>
                     
                     <p className="text-xl font-semibold mb-4">Products low on stock</p>
                     <div className="flex flex-wrap gap-x-2">
-                        <AccountProductCard onClick={editProduct}/>
-                        <AccountProductCard onClick={editProduct}/>
+                        <ProductCard onClick={editProduct} type="edit"/>
+                        <ProductCard onClick={editProduct} type="edit"/>
                     </div>
                     
                     <div className="my-16"></div>

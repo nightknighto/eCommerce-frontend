@@ -31,37 +31,37 @@ export default function Home() {
       <section>
         <h2 className="text-4xl font-bold dark:text-white">Hottest Products</h2>
         <div className="flex justify-around">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          <ProductCard type="addtocart"/>
+          <ProductCard type="addtocart"/>
+          <ProductCard type="addtocart"/>
+          <ProductCard type="addtocart"/>
         </div>
       </section>
       <section>
         <h2 className="text-4xl font-bold dark:text-white">Best Sellers</h2>
         <div className="flex justify-around">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          <ProductCard type="addtocart"/>
+          <ProductCard type="addtocart"/>
+          <ProductCard type="addtocart"/>
+          <ProductCard type="addtocart"/>
         </div>
       </section>
       <section>
         <h2 className="text-4xl font-bold dark:text-white">PC Builds</h2>
         <div className="flex justify-around">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          <ProductCard type="addtocart"/>
+          <ProductCard type="addtocart"/>
+          <ProductCard type="addtocart"/>
+          <ProductCard type="addtocart"/>
         </div>
       </section>
       <section>
         <h2 className="text-4xl font-bold dark:text-white">Monitors</h2>
         <div className="flex justify-around">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          <ProductCard type="addtocart"/>
+          <ProductCard type="addtocart"/>
+          <ProductCard type="addtocart"/>
+          <ProductCard type="addtocart"/>
         </div>
       </section>
       <section>
