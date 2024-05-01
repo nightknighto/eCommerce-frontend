@@ -2,6 +2,7 @@
 "use client";
 
 import { Alert, Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
+import Link from "next/link";
 import { useState } from "react";
 
 type LoginModalProps = {
@@ -74,9 +75,9 @@ export default function LoginModal({ open, onClose, onSubmit, error }: LoginModa
                         </div>
                         <div className="flex justify-between text-sm font-medium text-gray-500 dark:text-gray-300">
                             Not registered?&nbsp;
-                            <a href="#" className="text-cyan-700 hover:underline dark:text-cyan-500">
+                            <Link href="/signup" className="text-cyan-700 hover:underline dark:text-cyan-500">
                                 Create account
-                            </a>
+                            </Link>
                         </div>
                     </form>
                 </Modal.Body>
