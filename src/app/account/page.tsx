@@ -94,9 +94,9 @@ const Account = () => {
                                 <Table.Cell>13</Table.Cell>
                                 <Table.Cell>42</Table.Cell>
                                 <Table.Cell>
-                                    <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+                                    <Button size="sm" onClick={editProduct}>
                                         Edit
-                                    </a>
+                                    </Button>
                                 </Table.Cell>
                             </Table.Row>
                             <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
@@ -109,9 +109,9 @@ const Account = () => {
                                 <Table.Cell>24</Table.Cell>
                                 <Table.Cell>102</Table.Cell>
                                 <Table.Cell>
-                                    <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+                                    <Button size="sm" onClick={editProduct}>
                                         Edit
-                                    </a>
+                                    </Button>
                                 </Table.Cell>
                             </Table.Row>
                             <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
@@ -122,9 +122,9 @@ const Account = () => {
                                 <Table.Cell>145</Table.Cell>
                                 <Table.Cell>85</Table.Cell>
                                 <Table.Cell>
-                                    <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+                                    <Button size="sm" onClick={editProduct}>
                                         Edit
-                                    </a>
+                                    </Button>
                                 </Table.Cell>
                             </Table.Row>
                         </Table.Body>
