@@ -1,5 +1,6 @@
+import { Button } from "flowbite-react";
 
-export default function ProductCard() {
+export default function ProductCard(props: {type: "edit"|"addtocart", onClick?: () => void, stock?: number}) {
     return (
         <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href="#">
@@ -30,8 +31,25 @@ export default function ProductCard() {
                     <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">5.0</span>
                 </div>
                 <div className="flex items-center justify-between">
-                    <span className="text-3xl font-bold text-gray-900 dark:text-white">$599</span>
-                    <a href="#" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a>
+                    {props.stock ? 
+                    <span className="text-xl font-semibold text-gray-900 dark:text-white">
+                        {`${props.stock} left in stock` }
+                    </span>
+                    :
+                    <span className="text-3xl font-bold text-gray-900 dark:text-white">
+                        {"$599"}
+                    </span> 
+                    }
+                    
+                    {props.type === "edit" ? 
+                    <Button 
+                        onClick={props.onClick}
+                    >
+                        Edit Product
+                    </Button>
+                    : 
+                        <a href="#" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a>
+                    }
                 </div>
             </div>
         </div>

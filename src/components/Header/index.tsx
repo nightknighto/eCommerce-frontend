@@ -123,25 +123,36 @@ const Header = (props: {
           </form>
         </div>
 
-        {
-          !token ? (
-            <Button
-              color="blue"
-              onClick={openModal}
-            >
-              Login
-            </Button>
-          ) : (
-            <div className="flex items-center gap-3 2xsm:gap-7">
-              <ul className="flex items-center gap-2 2xsm:gap-4">
-                <DropdownNotification />
-                <DropdownMessage />
-              </ul>
-    
-              <DropdownUser />
-            </div>
-          )
-        }
+        
+
+        <div className="flex gap-x-4">
+          {
+            !token ? (
+              <Button
+                color="blue"
+                onClick={openModal}
+              >
+                Login
+              </Button>
+            ) : (
+              <>
+                <Button
+                  color="blue"
+                  href="/account"
+                >
+                  My Account
+                </Button>
+                <div className="flex items-center gap-3 2xsm:gap-7">
+                  <ul className="flex items-center gap-2 2xsm:gap-4">
+                    <DropdownNotification />
+                    <DropdownMessage />
+                  </ul>
+                  <DropdownUser />
+                </div>
+              </>
+            )
+          }
+        </div>
 
       </div>
       <nav className="bg-gray-50 dark:bg-gray-700">
