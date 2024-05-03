@@ -29,7 +29,7 @@ export default function LoginModal({ open, onClose, onSubmit, error }: LoginModa
 
     return (
         <>
-            <Modal show={open} size="md" onClose={onCloseModal} className="bg-slate-700" popup>
+            <Modal show={open} size="md" onClose={onCloseModal} className="bg-slate-700 z-9999" popup>
                 <Modal.Header />
                 <Modal.Body>
                     <form className="space-y-6" onSubmit={onSubmitModal}>

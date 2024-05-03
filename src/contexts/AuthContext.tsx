@@ -47,7 +47,7 @@ export default function AuthContextProvider({ children }: { children: React.Reac
             return;
         }
 
-        if(remember) localStorage.setItem(localStorageKey, data);
+        if(remember) localStorage.setItem(localStorageKey, JSON.stringify(data));
 
         setLoginModalOpen(false);
         setToken(data.token);
