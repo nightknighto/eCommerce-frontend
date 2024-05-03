@@ -4,6 +4,7 @@ import "flatpickr/dist/flatpickr.min.css";
 import "@/css/satoshi.css";
 import "@/css/style.css";
 import React, { useState } from "react";
+import MainLayout from "@/components/Layouts/MainLayout";
 
 export default function RootLayout({
   children,
@@ -18,7 +19,9 @@ export default function RootLayout({
     <html lang="en">
       <body suppressHydrationWarning={true}>
         <div className="dark:bg-boxdark-2 dark:text-bodydark">
-          {children}
+          <MainLayout>
+            {children}
+          </MainLayout>
         </div>
       </body>
     </html>

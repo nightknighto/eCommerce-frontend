@@ -4,7 +4,7 @@ import TableTwo from "@/components/Tables/TableTwo";
 export default function CartPage() {
     
     return (
-        <MainLayout>
+        <>
             <div className="grid grid-cols-12 gap-4 m-3">
                 <div className="col-span-12 lg:col-span-8">
                     <TableTwo />
@@ -23,6 +23,6 @@ export default function CartPage() {
                     <button className="block border-2 p-1 w-full">Clear Cart</button>
                 </div>
             </div>
-        </MainLayout>
+        </>
     )
 } 

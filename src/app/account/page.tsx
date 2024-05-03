@@ -34,7 +34,7 @@ const Account = () => {
     }
 
     return (
-        <MainLayout>
+        <>
             <div className="flex flex-col items-center p-8">
                 <div className="flex w-full justify-between mb-4">
                     <p className="text-2xl font-bold">My Account</p>
@@ -143,7 +143,7 @@ const Account = () => {
             <ProductModal type="edit" open={showEditModal} onClose={() => setShowEditModal(false)} error={null}/>
             <ProductModal type="add" open={showAddModal} onClose={() => setShowAddModal(false)} error={null}/>
             <ContactAdminsModal open={showContactAdminsModal} onClose={() => setContactAdminsModal(false)} error={null}/>
-        </MainLayout>
+        </>
     );
 }
  

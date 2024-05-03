@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <MainLayout>
+    <>
       <section>
         <MainCarousel />
       </section>
@@ -263,6 +263,6 @@ export default function Home() {
             </figure>
         </div>
       </section>
-    </MainLayout>
+    </>
   );
 }

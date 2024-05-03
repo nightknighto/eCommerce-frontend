@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const Profile = () => {
     return (
-        <MainLayout>
+        <>
             <div className="flex justify-center p-4">
                 <div className="w-full md:w-1/2 lg:w-1/3 border-slate-200 border-2 flex flex-col rounded-md p-2">
                     <p className="text-xl font-semibold mb-8">My Profile</p>
@@ -42,7 +42,7 @@ const Profile = () => {
 
                 </div>
             </div>
-        </MainLayout>
+        </>
     );
 }
  

@@ -22,7 +22,7 @@ const Search = () => {
     }, []);
 
     return (
-        <MainLayout>
+        <>
             <div className="flex flex-col md:flex-row p-4 gap-x-4">
                 {/* Sidebar */}
                 <div className="bg-white border-slate-400 rounded-md border-2 w-full md:w-1/5 p-2">
@@ -80,7 +80,7 @@ const Search = () => {
                     </div>
                 </section>
             </div>
-        </MainLayout>
+        </>
     );
 }
  
