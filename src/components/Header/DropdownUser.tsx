@@ -1,9 +1,13 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState,MouseEventHandler } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-const DropdownUser = () => {
+interface DropDownUserProps {
+  logout: ()=>void
+}
+
+const DropdownUser = ({logout}: DropDownUserProps) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef<any>(null);
@@ -34,6 +38,12 @@ const DropdownUser = () => {
     document.addEventListener("keydown", keyHandler);
     return () => document.removeEventListener("keydown", keyHandler);
   });
+
+  // const logout = (e:any)=>{
+  //   sessionStorage.removeItem("loggedInUser")
+  //   localStorage.removeItem("loggedInUser")
+  //   window.location.reload()
+  // }
 
   return (
     <div className="relative">
@@ -92,7 +102,7 @@ const DropdownUser = () => {
         <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark">
           <li>
             <Link
-              href="/template/profile"
+              href="/profile"
               className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
             >
               <svg
@@ -162,7 +172,7 @@ const DropdownUser = () => {
             </Link>
           </li>
         </ul>
-        <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+        <button onClick={logout} className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
           <svg
             className="fill-current"
             width="22"

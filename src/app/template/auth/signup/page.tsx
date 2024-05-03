@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { FormEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
@@ -16,11 +16,10 @@ import TemplateLayout from "@/components/Layouts/DefaultLayout";
 
 const SignUp: React.FC = () => {
 
-  const submit=(e:MouseEvent)=>{
+  const submit=(e:FormEvent)=>{
     e.preventDefault();
     console.log("submited form")
-    const formValues = e.target;
-    const form = new FormData(formValues);
+    const form = new FormData(e.target as HTMLFormElement);
     const value = Object.fromEntries(form);
     console.log(value)
   }
