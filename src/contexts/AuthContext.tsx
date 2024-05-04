@@ -29,7 +29,7 @@ export default function AuthContextProvider({ children }: { children: React.Reac
 
     const login = async (email: string, password: string, remember: boolean) => {
         setError(null);
-        const res = await fetch('https://distributed-project-backend.onrender.com/api/login/', {
+        const res = await fetch('https://distributed-project-backend.onrender.com/api/auth/login/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -39,14 +39,17 @@ export default function AuthContextProvider({ children }: { children: React.Reac
                 password,
             }),
         });
-
+        
+        console.log(res)
         const data = await res.json();
+        console.log(data)
 
         if (!res.ok) {
             setError('Login failed: ' + data.details);
             return;
         }
 
+        sessionStorage.setItem(localStorageKey, JSON.stringify(data));
         if(remember) localStorage.setItem(localStorageKey, JSON.stringify(data));
 
         setLoginModalOpen(false);
@@ -58,11 +61,21 @@ export default function AuthContextProvider({ children }: { children: React.Reac
         setToken(null);
         setUser(null);
         localStorage.removeItem(localStorageKey);
+        sessionStorage.removeItem(localStorageKey);
+        window.location.reload();
     };
 
     useEffect(() => {
-        const savedData = localStorage.getItem(localStorageKey);
+        const session = sessionStorage.getItem(localStorageKey);
 
+        if(session){
+            const parsedData = JSON.parse(session);
+            setToken(parsedData.token);
+            setUser(parsedData.user);
+            return
+        }
+
+        const savedData = localStorage.getItem(localStorageKey);
         if (savedData) {
             const parsedData = JSON.parse(savedData);
             setToken(parsedData.token);

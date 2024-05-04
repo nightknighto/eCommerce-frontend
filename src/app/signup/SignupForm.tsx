@@ -19,13 +19,19 @@ export default function SignupForm() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                first_name: firstName,
-                last_name: lastName,
-                username: firstName + '_' + lastName + '_' + Math.floor(Math.random() * 1000),
-                email,
-                password,
+                user:{
+                    first_name: firstName,
+                    last_name: lastName,
+                    username: firstName + '_' + lastName + '_' + Math.floor(Math.random() * 1000),
+                    email,
+                    password,
+                },
+                avatar:"abc.com",
+                address:"abc",
             }),
         });
+        const r = await res.json()
+        console.log(r);
 
         if (!res.ok) {
             alert('Signup failed');

@@ -15,7 +15,7 @@ const Header = (props: {
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
-  const {token, login, openModal} = useContext(AuthContext);
+  const {token, login, openModal, logout} = useContext(AuthContext);
   const router = useRouter();
   const [input, setInput] = useState("");
 
@@ -147,7 +147,7 @@ const Header = (props: {
                     <DropdownNotification />
                     <DropdownMessage />
                   </ul>
-                  <DropdownUser />
+                  <DropdownUser logout={logout}/>
                 </div>
               </>
             )
