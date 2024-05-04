@@ -24,6 +24,12 @@ const Account = () => {
     const editProduct = () => {
         setShowEditModal(true);
     }
+
+    const deleteProduct = () => {
+        if (confirm("Are you sure you want to delete this product?")) {
+            // delete product
+        }
+    }
     
     const addProduct = () => {
         setShowAddModal(true);
@@ -93,9 +99,12 @@ const Account = () => {
                                 <Table.Cell>$2999</Table.Cell>
                                 <Table.Cell>13</Table.Cell>
                                 <Table.Cell>42</Table.Cell>
-                                <Table.Cell>
+                                <Table.Cell className="flex gap-x-2">
                                     <Button size="sm" onClick={editProduct}>
                                         Edit
+                                    </Button>
+                                    <Button size="sm" onClick={deleteProduct} color="warning">
+                                        Delete
                                     </Button>
                                 </Table.Cell>
                             </Table.Row>
@@ -108,9 +117,12 @@ const Account = () => {
                                 <Table.Cell>$1999</Table.Cell>
                                 <Table.Cell>24</Table.Cell>
                                 <Table.Cell>102</Table.Cell>
-                                <Table.Cell>
+                                <Table.Cell className="flex gap-x-2">
                                     <Button size="sm" onClick={editProduct}>
                                         Edit
+                                    </Button>
+                                    <Button size="sm" onClick={deleteProduct} color="warning">
+                                        Delete
                                     </Button>
                                 </Table.Cell>
                             </Table.Row>
@@ -121,9 +133,12 @@ const Account = () => {
                                 <Table.Cell>$99</Table.Cell>
                                 <Table.Cell>145</Table.Cell>
                                 <Table.Cell>85</Table.Cell>
-                                <Table.Cell>
+                                <Table.Cell className="flex gap-x-2">
                                     <Button size="sm" onClick={editProduct}>
                                         Edit
+                                    </Button>
+                                    <Button size="sm" onClick={deleteProduct} color="warning">
+                                        Delete
                                     </Button>
                                 </Table.Cell>
                             </Table.Row>
