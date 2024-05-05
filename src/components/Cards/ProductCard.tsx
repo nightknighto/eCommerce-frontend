@@ -24,8 +24,8 @@ export default function ProductCard({
             <div className="px-5 pb-5">
                 <Link href={`/productPage/${product.id}`}>
                     <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{product.name}</h5>
-                    <h6 className="text-l font-semibold tracking-tight text-gray-100 dark:text-white">Sold by: {product.seller}</h6>
-                    <h6 className="text-l font-semibold tracking-tight text-gray-100 dark:text-white">Category: {product.category}</h6>
+                    <h6 className="text-l font-semibold tracking-tight text-gray-100 dark:text-white">Sold by: {product.seller_name}</h6>
+                    <h6 className="text-l font-semibold tracking-tight text-gray-100 dark:text-white">Category: {product.category_name}</h6>
                 </Link>
                 <ReviewStars rating={4.5} />
                 <div className="flex items-center justify-between">

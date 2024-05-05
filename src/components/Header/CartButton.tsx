@@ -17,9 +17,9 @@ const CartButton = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      const data: any[] = await response.json();
-      setItemsCount(data.length ?? 0);
-      setTotalPrice(0);
+      const data: any = await response.json();
+      setItemsCount(data.cart.length);
+      setTotalPrice(data.total_price);
     }
     if (token) {
       fetchCart();
