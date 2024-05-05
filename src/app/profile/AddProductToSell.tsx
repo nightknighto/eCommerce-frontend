@@ -12,7 +12,7 @@ const AddProductToSell = ({ setAddProduct, token, userId }: AddProductToSellProp
 
     const submitProduct = async (e:FormEvent)=>{
         e.preventDefault()
-        const form = Object.fromEntries(new FormData(e.target as HTMLFormElement));
+        const form: any = Object.fromEntries(new FormData(e.target as HTMLFormElement));
         console.log(form);
         for(let entry in form){
             if(entry === "quantity" || entry === "category" || entry === "seller")
