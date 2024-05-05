@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import DarkModeSwitcher from "./DarkModeSwitcher";
-import DropdownMessage from "./DropdownMessage";
+import CartButton from "./CartButton";
 import DropdownNotification from "./DropdownNotification";
 import DropdownUser from "./DropdownUser";
 import Image from "next/image";
@@ -125,7 +125,7 @@ const Header = (props: {
 
         
 
-        <div className="flex gap-x-4">
+        <div className="flex items-center gap-x-4">
           {
             !token ? (
               <Button
@@ -136,19 +136,13 @@ const Header = (props: {
               </Button>
             ) : (
               <>
-                <Button
-                  color="blue"
-                  href="/account"
-                >
-                  My Account
-                </Button>
-                <div className="flex items-center gap-3 2xsm:gap-7">
-                  <ul className="flex items-center gap-2 2xsm:gap-4">
-                    <DropdownNotification />
-                    <DropdownMessage />
-                  </ul>
-                  <DropdownUser logout={logout}/>
-                </div>
+                <Link href="/account">
+                  <Button color="blue">
+                    My Account
+                  </Button>
+                </Link>
+                <CartButton />
+                <DropdownUser logout={logout}/>
               </>
             )
           }
