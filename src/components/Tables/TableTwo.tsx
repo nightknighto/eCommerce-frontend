@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Product } from "@/types/product";
 import Link from "next/link";
 
-const productData: Product[] = [
+const productData = [
   {
     image: "/images/product/product-01.png",
     name: "Apple Watch Series 7",

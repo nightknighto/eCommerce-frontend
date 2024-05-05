@@ -7,7 +7,7 @@ import Review from "./Review";
 import ReviewWindow from "./ReviewWindow";
 import RelatedItem from "./RelatedItem";
 
-const ProductPage = (props:Object) =>{
+const ProductPage = () =>{
 
     const [reviewDisplay,setReviewDisplay] = useState(false);
     const [rate,setRate] = useState(4)
