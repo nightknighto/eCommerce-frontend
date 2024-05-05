@@ -10,31 +10,38 @@ interface ProductCardProps {
     product: Product;
 }
 
-export default function ProductCard(props: ProductCardProps) {
+export default function ProductCard({
+    product,
+    type,
+    onClick,
+    stock
+}: ProductCardProps) {
     return (
         <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <Link href="#">
+            <Link href={`/productPage/${product.id}`}>
                 <img className="p-8 rounded-t-lg" src="https://flowbite.com/docs/images/products/apple-watch.png" alt="product image" />
             </Link>
             <div className="px-5 pb-5">
-                <Link href="#">
-                    <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport</h5>
+                <Link href={`/productPage/${product.id}`}>
+                    <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{product.name}</h5>
+                    <h6 className="text-l font-semibold tracking-tight text-gray-100 dark:text-white">Sold by: {product.seller}</h6>
+                    <h6 className="text-l font-semibold tracking-tight text-gray-100 dark:text-white">Category: {product.category}</h6>
                 </Link>
                 <ReviewStars rating={4.5} />
                 <div className="flex items-center justify-between">
-                    {props.stock ? 
+                    {stock ? 
                     <span className="text-xl font-semibold text-gray-900 dark:text-white">
-                        {`${props.stock} left in stock` }
+                        {`${stock} left in stock` }
                     </span>
                     :
                     <span className="text-3xl font-bold text-gray-900 dark:text-white">
-                        {"$599"}
+                        {product.price}
                     </span> 
                     }
                     
-                    {props.type === "edit" ? 
+                    {type === "edit" ? 
                     <Button 
-                        onClick={props.onClick}
+                        onClick={onClick}
                     >
                         Edit Product
                     </Button>

@@ -105,7 +105,7 @@ const Search = () => {
                         onKeyDown={handleKeyPress}
                         ref={searchRef}
                     />
-                    <p className="font-semibold mb-2">Filters</p>
+                    <p className="font-semibold mb-2 mt-5">Filters</p>
 
                     <p className="font-medium mt-2">Brands</p>
                     {selectedCategories.map(b => 
