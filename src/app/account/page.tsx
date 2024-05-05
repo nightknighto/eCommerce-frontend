@@ -148,8 +148,8 @@ const Account = () => {
                     
                     <p className="text-xl font-semibold mb-4">Products low on stock</p>
                     <div className="flex flex-wrap gap-x-2">
-                        <ProductCard onClick={editProduct} type="edit" stock={3}/>
-                        <ProductCard onClick={editProduct} type="edit" stock={5}/>
+                        {/* <ProductCard onClick={editProduct} type="edit" stock={3}/>
+                        <ProductCard onClick={editProduct} type="edit" stock={5}/> */}
                     </div>
                     
                     <div className="my-16"></div>
