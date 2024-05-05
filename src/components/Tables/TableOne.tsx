@@ -1,7 +1,7 @@
-import { BRAND } from "@/types/brand";
+import { Category } from "@/types/category";
 import Image from "next/image";
 
-const brandData: BRAND[] = [
+const brandData: Category[] = [
   {
     logo: "/images/brand/brand-01.svg",
     name: "Google",
