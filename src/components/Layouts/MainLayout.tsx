@@ -19,7 +19,7 @@ export default function MainLayout ({ children }: {
             <div>
                 <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-                <main>
+                <main className='mb-20'>
                     {children}
                 </main>            
 
