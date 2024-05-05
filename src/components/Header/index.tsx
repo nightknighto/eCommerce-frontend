@@ -135,7 +135,13 @@ const Header = (props: {
                 Login
               </Button>
             ) : (
-              <>
+              <div className="flex items-center gap-x-2">
+                <Button
+                  color="blue"
+                  href="/cart"
+                >
+                  My Cart
+                </Button>
                 <Button
                   color="blue"
                   href="/account"
@@ -149,7 +155,7 @@ const Header = (props: {
                   </ul>
                   <DropdownUser logout={logout}/>
                 </div>
-              </>
+              </div>
             )
           }
         </div>
