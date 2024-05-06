@@ -37,7 +37,7 @@ const Search = () => {
         async function fetchData() {
             const res = await fetch("https://distributed-project-backend.onrender.com/api/home/categories/")
             const data: Category[] = await res.json()
-            const categories = searchParams.get("category")?.split(",")
+            const categories = searchParams.get("categories")?.split(",")
             setSelectedCategories(data.map((b) => ({categoryName: b.name, id: b.id, selected: categories ? categories.includes(b.id.toString()) : false})))
         }
         fetchData()
@@ -45,7 +45,7 @@ const Search = () => {
 
     // Categories
     useEffect(() => {
-        addQuery("category", selectedCategories.filter(b => b.selected).map(b => b.id.toString()).join(","))
+        addQuery("categories", selectedCategories.filter(b => b.selected).map(b => b.id.toString()).join(","))
     }, [selectedCategories])
 
     // Price
