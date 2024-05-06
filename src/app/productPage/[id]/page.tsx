@@ -62,13 +62,6 @@ const ProductPage = () =>{
                                     <span>Add To Wishlist</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="rgb(100 116 139)" height="24" viewBox="0 -960 960 960" width="24"><path d="M440-501Zm0 381L313-234q-72-65-123.5-116t-85-96q-33.5-45-49-87T40-621q0-94 63-156.5T260-840q52 0 99 22t81 62q34-40 81-62t99-22q81 0 136 45.5T831-680h-85q-18-40-53-60t-73-20q-51 0-88 27.5T463-660h-46q-31-45-70.5-72.5T260-760q-57 0-98.5 39.5T120-621q0 33 14 67t50 78.5q36 44.5 98 104T440-228q26-23 61-53t56-50l9 9 19.5 19.5L605-283l9 9q-22 20-56 49.5T498-172l-58 52Zm280-160v-120H600v-80h120v-120h80v120h120v80H800v120h-80Z"/></svg>
                                 </button>
-                                <div className="color flex flex-row items-center w-100" id="color">
-                                    <span>Color:&nbsp;</span>
-                                    <div className="flex flex-row justify-center py-1 px-1 rounded gap-x-1 bg-slate-300">
-                                        <div className="bg-white w-8 h-8 cursor-pointer rounded border-2 border-sky-400">&nbsp;</div>
-                                        <div className="bg-black w-8 h-8 cursor-pointer rounded">&nbsp;</div>
-                                    </div>
-                                </div>
                                 <span className="text-green-400">{product?.quantity} In-Stock</span>
                             </div>
                         </div>
@@ -83,21 +76,6 @@ const ProductPage = () =>{
                                 <RelatedItem name="product1" image="abc"/>
                                 <RelatedItem name="product1" image="abc"/>
                                 {/* <button className="h-40 hover:bg-sky-400 hover:text-white duration-500 py-5 w-10 text-2xl rounded-l-lg">&#11208;</button> */}
-                            </div>
-                        </div>
-                        <div className="cart-checkout-div text-2xl bg-slate-300 rounded-lg box-border shadow-lg shadow-slate-300">
-                            <h1 className="bg-slate-500 rounded-t-lg px-2 py-1 text-white" style={{fontSize:"1.8rem",fontWeight:"1000"}}>Cart</h1>
-                            <div className="flex flex-col justify-center gap-y-2 py-3 text-3lg px-2 bg-white rounded-b-lg">
-                                <div>
-                                    <span>Total Items:&nbsp;</span>
-                                    <span>4</span>
-                                </div>
-                                <div>
-                                    <span>Total Amount:&nbsp;</span>
-                                    <span>3000</span>
-                                </div>
-                                <button className="bg-sky-500 text-center w-full text-white font-semibold text-2xl border-2 border-sky-500 
-                                hover:bg-white hover:text-sky-500 duration-500 rounded-lg py-1 box-border">Prooced To Checkout</button> 
                             </div>
                         </div>
                     </div>
