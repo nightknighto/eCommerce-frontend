@@ -146,9 +146,9 @@ const Search = () => {
                     
                 </div>
                 {/* Search results */}
-                <section>
+                <section className="w-full md:w-4/5">
                     <h2 className="text-4xl font-bold dark:text-white">Search results for {searchParams.get("search")}</h2>
-                    <div className="flex justify-around gap-x-1">
+                    <div className="flex gap-4 flex-wrap">
                         {
                             products.length == 0 ? <p>No results found</p> : (
                                 products.map((product) => (
