@@ -1,19 +1,32 @@
 "use client";
 
-import React, { useState, MouseEvent} from "react";
+import React, { useState, MouseEvent, useEffect} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Review from "./Review";
 import ReviewWindow from "./ReviewWindow";
 import RelatedItem from "./RelatedItem";
+import { Product } from "@/types/product";
+import { useParams } from "next/navigation";
 
 const ProductPage = () =>{
-
+    const searchParams = useParams<{id: string}>();
+    const [product, setProduct] = useState<Product>();
     const [reviewDisplay,setReviewDisplay] = useState(false);
     const [rate,setRate] = useState(4)
     const showReviewWindow = (show:boolean)=>{
         setReviewDisplay(show);
     }
+
+    useEffect(() => {
+        fetch(`https://distributed-project-backend.onrender.com/api/home/products/${parseInt(searchParams.id)}`)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            setProduct(data);
+        })
+    }, [searchParams.id])
+
 
     return(
         <>
@@ -35,10 +48,10 @@ const ProductPage = () =>{
                         </div>
                         <div className="information " id="information">
                             <div className="flex flex-col justify-center h-full gap-y-4 text-2xl" id="">
-                                <div className="name" id="name" style={{fontSize:"2rem",fontWeight:"600"}}>Product 1</div>
+                                <div className="name" id="name" style={{fontSize:"2rem",fontWeight:"600"}}>{product?.name}</div>
                                 <div className="price" id="price">
                                     <span>Price:&nbsp;</span>
-                                    <span>3000 EGP</span>
+                                    <span>{product?.price} EGP</span>
                                 </div>
                                 <div className="rating" id="rating">
                                     <span>Rating:&nbsp;</span>
@@ -56,7 +69,7 @@ const ProductPage = () =>{
                                         <div className="bg-black w-8 h-8 cursor-pointer rounded">&nbsp;</div>
                                     </div>
                                 </div>
-                                <span className="text-green-400">{4} In-Stock</span>
+                                <span className="text-green-400">{product?.quantity} In-Stock</span>
                             </div>
                         </div>
                     </div>
@@ -93,11 +106,7 @@ const ProductPage = () =>{
                     <div className="" style={{fontSize:"1.8rem",fontWeight:"bold"}}>Product Description</div>
                     <div className="flex flex-row justify-center py-5"> 
                         <div id="left" className="basis-3/4 text-2xl">
-                            <p>This is product is Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam fugit ut minus provident deserunt atque, eaque dolorum, saepe impedit quasi eos deleniti tempore ad sunt voluptatem soluta repudiandae quis molestiae!</p>
-                            <br />
-                            <p>This is product is Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam fugit ut minus provident deserunt atque, eaque dolorum, saepe impedit quasi eos deleniti tempore ad sunt voluptatem soluta repudiandae quis molestiae!</p>
-                            <br />
-                            <p>This is product is Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam fugit ut minus provident deserunt atque, eaque dolorum, saepe impedit quasi eos deleniti tempore ad sunt voluptatem soluta repudiandae quis molestiae!</p>
+                            {product?.description}
                         </div>
                         <div id="right" className="basis-1/4 border-l-2 px-2 flex flex-row gap-x-20">
                             <div className="flex flex-col text-xl font-semibold justify-between">
