@@ -7,6 +7,7 @@ import CategoryCard from "@/components/Cards/CategoryCard";
 import { MainCarousel } from "@/components/Carousel";
 import HomeProducts from "@/components/HomeCardGroups/HomeProducts";
 import HomeCategories from "@/components/HomeCardGroups/HomeCategories";
+import HomeSellers from "@/components/HomeCardGroups/HomeSellers";
 
 export const metadata: Metadata = {
   title:
@@ -55,14 +56,9 @@ export default function Home() {
           <ProductCard type="addtocart"/> */}
         </div>
       </section>
-      <section>
-        <h2 className="text-4xl font-bold dark:text-white">Top Merchants</h2>
-        <div className="flex justify-around">
-          <MerchantCard />
-          <MerchantCard />
-          <MerchantCard />
-          <MerchantCard />
-        </div>
+      <section className="p-4">
+        <h2 className="text-4xl font-bold dark:text-white mb-2">Top Merchants</h2>
+        <HomeSellers />
       </section>
       {/* <ECommerce /> */}
       <section>
