@@ -8,7 +8,6 @@ interface JoinAsSellerProps {
 }
 
 const JoinAsSeller = ({setSeller, token}:JoinAsSellerProps)=>{
-    const [url,setUrl] = useState("https://distributed-project-backend.onrender.com/api/auth/register/seller/")
     const submitSeller = async (e:FormEvent)=>{
         e.preventDefault();
         const form = Object.fromEntries(new FormData(e.target as HTMLFormElement));
@@ -18,7 +17,7 @@ const JoinAsSeller = ({setSeller, token}:JoinAsSellerProps)=>{
             return 
         }
         console.log(token)
-        const res = await fetch(url,{
+        const res = await fetch("https://distributed-project-backend.onrender.com/api/auth/register/seller/",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json",
