@@ -12,7 +12,7 @@ const ReviewWindow = ({productId}:ReviewWindowProps)=>{
 
     return(
         <>
-            <div className={`review-window flex flex-col rounded-md`} id="add-review">
+            <div className={`review-window flex flex-col rounded-md w-1/2 fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 bg-white`} id="add-review">
                 <div className="text-2xl font-bold text-white text-center w-full border-b-2 border-black
                 bg-slate-500 h-10 flex flex-col justify-center rounded-t-md">Make Review</div>
                 <form className="flex flex-col justify-between gap-y-5 h-full w-full py-5 px-5">

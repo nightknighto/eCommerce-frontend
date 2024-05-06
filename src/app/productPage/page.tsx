@@ -1,23 +1,151 @@
 "use client";
 
-import React, { useState, MouseEvent} from "react";
+import React, { useState, MouseEvent, useEffect, FormEvent} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Review from "./Review";
 import ReviewWindow from "./ReviewWindow";
 import RelatedItem from "./RelatedItem";
 
-const ProductPage = (props:Object) =>{
+
+interface product {
+    name: string,
+    id: number,
+    price: string,
+    description: string,
+    category: number,
+    qunatity: number,
+    seller: number,
+    specs: string
+}
+
+interface cart {
+    items: number,
+    totalAmount: number
+}
+
+const ProductPage = () =>{
 
     const [reviewDisplay,setReviewDisplay] = useState(false);
     const [rate,setRate] = useState(4)
+    const [product,setProduct] = useState<product|null>(null)
+    const [url,setUrl] = useState("https://distributed-project-backend.onrender.com/api/home/products/");
+    const [addToCartWait,setAddToCartWait] = useState(false);
+    const [userToken,setUserToken] = useState<string|null>(null)
+    const [relatedProducts,setRelatedProducts] = useState<product[]|null>(null);
+    const [cart,setCart] = useState<cart|null>(null);
+
     const showReviewWindow = (show:boolean)=>{
         setReviewDisplay(show);
     }
 
+    const addToCart = async (e:MouseEvent)=>{
+        setAddToCartWait(true);
+        fetch("https://distributed-project-backend.onrender.com/api/stats/cart-items/",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization": `Bearer ${userToken}`,
+            },
+            body:JSON.stringify({
+                product: 1,
+                quantity: 1
+            })
+        }).then(async response=>{
+            setAddToCartWait(false);
+            const res = await response.json();
+            console.log(res);
+        })
+    }
+
+    const addToWishList = (e:MouseEvent)=>{
+        fetch("https://distributed-project-backend.onrender.com/api/stats/wishlist-product/",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization": `Bearer ${userToken}`
+            },
+            body:JSON.stringify({
+                "product": 1,
+            })
+        }).then(async response=>{
+            setAddToCartWait(false);
+            console.log(response);
+        })
+    }
+
+    useEffect(()=>{
+        const userData = sessionStorage.getItem("loggedInUser");
+        if(userData){
+            const token = JSON.parse(userData).token
+            setUserToken(token)
+            console.log(token)
+        }
+        async function getDate(id: number){
+            const response = await fetch(`${url+id}`,{
+                method:"GET",
+                headers:{
+                    "Content-Type":"application/json",
+                }
+            });
+            const res = await response.json();
+            console.log(res);
+            setProduct(()=>{
+                return {...res}
+            })
+            return res;
+        }
+        getDate(1);
+        
+    },[])
+
+    useEffect(()=>{
+        if(!userToken) return;
+        fetch("https://distributed-project-backend.onrender.com/api/stats/cart-items/",{
+            method:"GET",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization": `Bearer ${userToken}`,
+            },
+        }).then(async (res)=>{
+            const cart = await res.json();
+            setCart(()=>{
+                const totalAmount = cart.cart.reduce((acc:number,item:any)=>{
+                    return acc + (item.quantity * +item.product_details.price)
+                },0)
+                console.log(totalAmount)
+                return {
+                    "items": cart.cart.length,
+                    "totalAmount": totalAmount
+                }
+            })
+            console.log(cart.cart)
+        })
+    },[userToken])
+
+    useEffect(()=>{
+        if(!product) return;
+        fetch(`https://distributed-project-backend.onrender.com/api/home/products/?categories=${product?product.category:""}`,{
+            method:"GET",
+            headers:{
+                "Content-Type":"application/json",
+            }
+        }).then(async (res)=>{
+            const products:product[] = await res.json();
+            console.log(products);
+            setRelatedProducts(() => {
+                let relatedProducts = products?products.filter(prod=>prod.id !== product?.id):[];
+                relatedProducts = relatedProducts.splice(0,3);
+                console.log(relatedProducts);
+                return relatedProducts;
+            });
+
+        })
+    },[product])
+
     return(
         <>
-            <div style={{backgroundColor:"#f9f9f9"}} className="product-page flex flex-col flex-wrap px-10 my-30 gap-y-5 gap-x-10 w-full h-fit">
+            <div style={{backgroundColor:"#f9f9f9"}} className="product-page flex flex-col flex-wrap px-10 gap-y-5 gap-x-10 w-full h-fit">
                 <div className="flex flex-row items-center justify-between w-full h-fit">
                     <div className="product-side flex flex-row justify-center items-center px-10 box-border gap-x-10 w-fit h-full">
                         <div className="" id="image">
@@ -35,17 +163,19 @@ const ProductPage = (props:Object) =>{
                         </div>
                         <div className="information " id="information">
                             <div className="flex flex-col justify-center h-full gap-y-4 text-2xl" id="">
-                                <div className="name" id="name" style={{fontSize:"2rem",fontWeight:"600"}}>Product 1</div>
+                                <div className="name" id="name" style={{fontSize:"2rem",fontWeight:"600"}}>{product?product.name:""}</div>
                                 <div className="price" id="price">
                                     <span>Price:&nbsp;</span>
-                                    <span>3000 EGP</span>
+                                    <span>{product?product.price:""} EGP</span>
                                 </div>
                                 <div className="rating" id="rating">
                                     <span>Rating:&nbsp;</span>
                                     <span>4.3</span>
                                 </div>
-                                <button className="bg-sky-500 hover:bg-white hover:text-inherit border-2 duration-500 border-sky-500 w-50 h-13 text-white text-3xl">Add To Cart</button>
-                                <button className="flex flex-row justify-center items-center w-fit gap-x-2 w-fit my-1 h-10 text-xl hover:text-2xl duration-500">
+                                <button className={`relative hover:bg-white bg-sky-500 hover:text-inherit border-2 duration-500 border-sky-500 w-50 h-13 text-white text-3xl
+                                ${addToCartWait?"bg-sky-200 opacity-50":"bg-sky-500"}
+                                `} onClick={addToCart}><div className={`w-full ${addToCartWait?"small-loader":""}`}></div> Add To Cart</button>
+                                <button className="flex flex-row justify-center items-center w-fit gap-x-2 w-fit my-1 h-10 text-xl hover:text-2xl duration-500" onClick={addToWishList}>
                                     <span>Add To Wishlist</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="rgb(100 116 139)" height="24" viewBox="0 -960 960 960" width="24"><path d="M440-501Zm0 381L313-234q-72-65-123.5-116t-85-96q-33.5-45-49-87T40-621q0-94 63-156.5T260-840q52 0 99 22t81 62q34-40 81-62t99-22q81 0 136 45.5T831-680h-85q-18-40-53-60t-73-20q-51 0-88 27.5T463-660h-46q-31-45-70.5-72.5T260-760q-57 0-98.5 39.5T120-621q0 33 14 67t50 78.5q36 44.5 98 104T440-228q26-23 61-53t56-50l9 9 19.5 19.5L605-283l9 9q-22 20-56 49.5T498-172l-58 52Zm280-160v-120H600v-80h120v-120h80v120h120v80H800v120h-80Z"/></svg>
                                 </button>
@@ -56,7 +186,7 @@ const ProductPage = (props:Object) =>{
                                         <div className="bg-black w-8 h-8 cursor-pointer rounded">&nbsp;</div>
                                     </div>
                                 </div>
-                                <span className="text-green-400">{4} In-Stock</span>
+                                <span className="text-green-400">{product?product.qunatity:""} In-Stock</span>
                             </div>
                         </div>
                     </div>
@@ -64,12 +194,14 @@ const ProductPage = (props:Object) =>{
                         <div className="related-items flex flex-col">
                             <span className="text-2xl" style={{fontSize:"1.5rem",fontWeight:"600"}}>Related Items:</span>
                             <div className="r-items-container flex flex-row items-center h-full
-                             bg-slate-300 w-full text-xl px-10 py-5 box-border gap-x-6 items-center rounded-lg" style={{width:"400px" ,height:"140px"}}>
-                                {/* <button className="h-40 hover:bg-sky-400 hover:text-white duration-500 py-5 w-10 text-2xl rounded-r-lg">&#11207;</button> */}
-                                <RelatedItem name="product1" image="abc"/>
-                                <RelatedItem name="product1" image="abc"/>
-                                <RelatedItem name="product1" image="abc"/>
-                                {/* <button className="h-40 hover:bg-sky-400 hover:text-white duration-500 py-5 w-10 text-2xl rounded-l-lg">&#11208;</button> */}
+                            bg-slate-300 w-full text-xl px-10 py-5 box-border gap-x-6 items-center rounded-lg" style={{width:"400px" ,height:"140px"}}>
+                                {
+                                    relatedProducts?.map(product=>
+                                        (
+                                            <RelatedItem name={product.name} image={"abc"}/>
+                                        )
+                                    )
+                                }
                             </div>
                         </div>
                         <div className="cart-checkout-div text-2xl bg-slate-300 rounded-lg box-border shadow-lg shadow-slate-300">
@@ -77,14 +209,16 @@ const ProductPage = (props:Object) =>{
                             <div className="flex flex-col justify-center gap-y-2 py-3 text-3lg px-2 bg-white rounded-b-lg">
                                 <div>
                                     <span>Total Items:&nbsp;</span>
-                                    <span>4</span>
+                                    <span>{cart?.items}</span>
                                 </div>
                                 <div>
                                     <span>Total Amount:&nbsp;</span>
-                                    <span>3000</span>
+                                    <span>{cart?.totalAmount}</span>
                                 </div>
+                                <Link href={'/Checkout'}>
                                 <button className="bg-sky-500 text-center w-full text-white font-semibold text-2xl border-2 border-sky-500 
                                 hover:bg-white hover:text-sky-500 duration-500 rounded-lg py-1 box-border">Prooced To Checkout</button> 
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -93,14 +227,11 @@ const ProductPage = (props:Object) =>{
                     <div className="" style={{fontSize:"1.8rem",fontWeight:"bold"}}>Product Description</div>
                     <div className="flex flex-row justify-center py-5"> 
                         <div id="left" className="basis-3/4 text-2xl">
-                            <p>This is product is Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam fugit ut minus provident deserunt atque, eaque dolorum, saepe impedit quasi eos deleniti tempore ad sunt voluptatem soluta repudiandae quis molestiae!</p>
-                            <br />
-                            <p>This is product is Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam fugit ut minus provident deserunt atque, eaque dolorum, saepe impedit quasi eos deleniti tempore ad sunt voluptatem soluta repudiandae quis molestiae!</p>
-                            <br />
-                            <p>This is product is Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam fugit ut minus provident deserunt atque, eaque dolorum, saepe impedit quasi eos deleniti tempore ad sunt voluptatem soluta repudiandae quis molestiae!</p>
+                        {product?product.description:""}
                         </div>
                         <div id="right" className="basis-1/4 border-l-2 px-2 flex flex-row gap-x-20">
-                            <div className="flex flex-col text-xl font-semibold justify-between">
+                        {product?product.specs:""}
+                            {/* <div className="flex flex-col text-xl font-semibold justify-between">
                                 <span>ABC:&nbsp;</span>
                                 <span>ABC:&nbsp;</span>
                                 <span>ABC:&nbsp;</span>
@@ -115,7 +246,7 @@ const ProductPage = (props:Object) =>{
                                 <span>Yes</span>
                                 <span>Yes</span>
                                 <span>No</span>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
