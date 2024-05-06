@@ -7,7 +7,7 @@ export type SellerInfo = {
     company_name: string,
     location: string,
     out_of_stock_num: number​
-    products: Product[],
+    products: (Product & {total_sold: number})[],
     products_num: number,
     total_products_sold: number,
     total_revenue: string,
