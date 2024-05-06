@@ -6,10 +6,11 @@ import CartButton from "./CartButton";
 import DropdownNotification from "./DropdownNotification";
 import DropdownUser from "./DropdownUser";
 import Image from "next/image";
-import { FormEvent, useContext, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "@/contexts/AuthContext";
 import { Button } from "flowbite-react";
+import { Category } from "@/types/category";
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
@@ -18,13 +19,25 @@ const Header = (props: {
   const {token, login, openModal, logout} = useContext(AuthContext);
   const router = useRouter();
   const [input, setInput] = useState("");
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
     router.push(`/search?search=${input}`);
   }
 
-
+  useEffect(() => {
+    fetch("https://distributed-project-backend.onrender.com/api/home/categories/",{
+        mode:"cors",
+        headers:{
+            "Content-Type":"application/json",
+        },
+    })
+    .then(res => res.json())
+    .then((data) => {
+        setCategories(data);
+    })
+}, []);
 
   return (
     <header className="sticky top-0 z-999 w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
@@ -153,24 +166,11 @@ const Header = (props: {
         <div className="max-w-screen-xl px-4 py-3 mx-auto">
             <div className="flex items-center">
                 <ul className="flex flex-row font-medium mt-0 space-x-8 rtl:space-x-reverse text-sm">
-                    <li>
-                        <a href="#" className="text-gray-900 dark:text-white hover:underline" aria-current="page">All Categories</a>
-                    </li>
-                    <li>
-                        <a href="#" className="text-gray-900 dark:text-white hover:underline">Processors</a>
-                    </li>
-                    <li>
-                        <a href="#" className="text-gray-900 dark:text-white hover:underline">Headphones</a>
-                    </li>
-                    <li>
-                        <a href="#" className="text-gray-900 dark:text-white hover:underline">Mouse/Keyboard</a>
-                    </li>
-                    <li>
-                        <a href="#" className="text-gray-900 dark:text-white hover:underline">GPUs</a>
-                    </li>
-                    <li>
-                        <a href="#" className="text-gray-900 dark:text-white hover:underline">Monitors</a>
-                    </li>
+                    {categories.map(category => (
+                      <li key={category.id}>
+                          <Link href={`/search?categories=${category.id}`} className="text-gray-900 dark:text-white hover:underline" aria-current="page">{category.name}</Link>
+                      </li>
+                    ))}
                 </ul>
               </div>
           </div>

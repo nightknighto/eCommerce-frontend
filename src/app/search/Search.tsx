@@ -37,7 +37,7 @@ const Search = () => {
         async function fetchData() {
             const res = await fetch("https://distributed-project-backend.onrender.com/api/home/categories/")
             const data: Category[] = await res.json()
-            const categories = searchParams.get("category")?.split(",")
+            const categories = searchParams.get("categories")?.split(",")
             setSelectedCategories(data.map((b) => ({categoryName: b.name, id: b.id, selected: categories ? categories.includes(b.id.toString()) : false})))
         }
         fetchData()
@@ -45,7 +45,7 @@ const Search = () => {
 
     // Categories
     useEffect(() => {
-        addQuery("category", selectedCategories.filter(b => b.selected).map(b => b.id.toString()).join(","))
+        addQuery("categories", selectedCategories.filter(b => b.selected).map(b => b.id.toString()).join(","))
     }, [selectedCategories])
 
     // Price
@@ -146,9 +146,9 @@ const Search = () => {
                     
                 </div>
                 {/* Search results */}
-                <section>
+                <section className="w-full md:w-4/5">
                     <h2 className="text-4xl font-bold dark:text-white">Search results for {searchParams.get("search")}</h2>
-                    <div className="flex justify-around gap-x-1">
+                    <div className="flex gap-4 flex-wrap">
                         {
                             products.length == 0 ? <p>No results found</p> : (
                                 products.map((product) => (
