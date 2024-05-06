@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import { SellerInfo } from "@/types/SellerInfo";
 
-const StatsCard = (props: {topText: string, bottomText: string}) => {
+const StatsCard = (props: {topText: string | number, bottomText: string | number}) => {
     return (
         <div className="w-48 border-slate-400 border-2 flex flex-col rounded-md py-1 px-2">
             <div className="text-lg font-medium">{props.topText}</div>
@@ -86,11 +86,11 @@ const Account = () => {
                 <div className="w-full border-slate-200 border-2 flex flex-col rounded-md p-4">
                     <p className="text-xl font-semibold mb-4">Statistics</p>
                     <div className="flex flex-wrap gap-x-4 mb-8">
-                        <StatsCard topText="Items listed" bottomText={stats?.products_num.toString() ?? ""}/>
-                        <StatsCard topText="Items sold" bottomText={stats?.total_products_sold.toString() ?? ""}/>
+                        <StatsCard topText="Items listed" bottomText={stats?.products_num ?? ""}/>
+                        <StatsCard topText="Items sold" bottomText={stats?.total_products_sold ?? ""}/>
                         <StatsCard topText="Total revenue" bottomText={stats?.total_revenue ?? ""}/>
                         <StatsCard topText="Rating" bottomText={stats?.average_product_rating ?? ""}/>
-                        <StatsCard topText="Out of stock" bottomText={stats?.out_of_stock_num.toString() ?? ""}/>
+                        <StatsCard topText="Out of stock" bottomText={stats?.out_of_stock_num ?? ""}/>
                     </div>
                     
                     <p className="text-xl font-semibold mb-4">My Products</p>
@@ -108,7 +108,7 @@ const Account = () => {
                         </Table.Head>
                         <Table.Body className="divide-y">
 
-                            {stats?.products.map(product => (
+                            {stats && stats.products && stats.products.map(product => (
                                 <Table.Row key={product.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                         {product.name}
@@ -129,12 +129,6 @@ const Account = () => {
                             ))}
                         </Table.Body>
                     </Table>
-                    </div>
-                    
-                    <p className="text-xl font-semibold mb-4">Products low on stock</p>
-                    <div className="flex flex-wrap gap-x-2">
-                        {/* <ProductCard onClick={editProduct} type="edit" stock={3}/>
-                        <ProductCard onClick={editProduct} type="edit" stock={5}/> */}
                     </div>
                     
                     <div className="my-16"></div>
