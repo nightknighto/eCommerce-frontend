@@ -1,8 +1,7 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "../Cards/ProductCard";
-import { AuthContext } from "@/contexts/AuthContext";
 import { Product } from "@/types/product";
 
 const HomeProducts = () => {

@@ -7,6 +7,7 @@ import { MainCarousel } from "@/components/Carousel";
 import HomeProducts from "@/components/HomeCardGroups/HomeProducts";
 import HomeCategories from "@/components/HomeCardGroups/HomeCategories";
 import HomeSellers from "@/components/HomeCardGroups/HomeSellers";
+import HomeCategoryProducts from "@/components/HomeCardGroups/HomeCategoryProducts";
 
 export const metadata: Metadata = {
   title:
@@ -28,32 +29,8 @@ export default function Home() {
         <h2 className="text-4xl font-bold dark:text-white mb-2">Hottest Products</h2>
         <HomeProducts />
       </section>
-      <section>
-        <h2 className="text-4xl font-bold dark:text-white">Best Sellers</h2>
-        <div className="flex justify-around">
-          {/* <ProductCard type="addtocart"/>
-          <ProductCard type="addtocart"/>
-          <ProductCard type="addtocart"/>
-          <ProductCard type="addtocart"/> */}
-        </div>
-      </section>
-      <section>
-        <h2 className="text-4xl font-bold dark:text-white">PC Builds</h2>
-        <div className="flex justify-around">
-          {/* <ProductCard type="addtocart"/>
-          <ProductCard type="addtocart"/>
-          <ProductCard type="addtocart"/>
-          <ProductCard type="addtocart"/> */}
-        </div>
-      </section>
-      <section>
-        <h2 className="text-4xl font-bold dark:text-white">Monitors</h2>
-        <div className="flex justify-around">
-          {/* <ProductCard type="addtocart"/>
-          <ProductCard type="addtocart"/>
-          <ProductCard type="addtocart"/>
-          <ProductCard type="addtocart"/> */}
-        </div>
+      <section className="p-4">
+        <HomeCategoryProducts />
       </section>
       <section className="p-4">
         <h2 className="text-4xl font-bold dark:text-white mb-2">Top Merchants</h2>
