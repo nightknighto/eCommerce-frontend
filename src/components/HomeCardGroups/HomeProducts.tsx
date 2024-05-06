@@ -6,23 +6,20 @@ import { AuthContext } from "@/contexts/AuthContext";
 import { Product } from "@/types/product";
 
 const HomeProducts = () => {
-    const {token} = useContext(AuthContext);
     const [products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {
-        if (!token) return;
         fetch("https://distributed-project-backend.onrender.com/api/home/products/",{
             mode:"cors",
             headers:{
                 "Content-Type":"application/json",
-                "Authorization": `Bearer ${token}`
             },
         })
         .then(res => res.json())
         .then((data) => {
             setProducts(data);
         })
-    }, [token]);
+    }, []);
 
     return (
         <div className="flex overflow-x-auto gap-x-2">

@@ -1,9 +1,6 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "@/contexts/AuthContext";
-import { Category } from "@/types/category";
-import CategoryCard from "../Cards/CategoryCard";
+import { useEffect, useState } from "react";
 import MerchantCard from "../Cards/MerchantCard";
 import { User } from "@/types/user";
 import { Product } from "@/types/product";
@@ -16,24 +13,20 @@ type Seller = {
 }
 
 const HomeSellers = () => {
-    const {token} = useContext(AuthContext);
     const [sellers, setSellers] = useState<Seller[]>([]);
 
     useEffect(() => {
-        if (!token) return;
         fetch("https://distributed-project-backend.onrender.com/api/stats/sellers/",{
             mode:"cors",
             headers:{
                 "Content-Type":"application/json",
-                "Authorization": `Bearer ${token}`
             },
         })
         .then(res => res.json())
         .then((data) => {
-            console.log(data);
             setSellers(data);
         })
-    }, [token]);
+    }, []);
 
     return (
         <div className="flex overflow-x-auto gap-x-2">
