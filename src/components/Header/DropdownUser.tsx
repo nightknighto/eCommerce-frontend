@@ -1,13 +1,12 @@
 "use client";
-import { useEffect, useRef, useState,MouseEventHandler } from "react";
+import { useEffect, useRef, useState,MouseEventHandler, useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { AuthContext } from "@/contexts/AuthContext";
 
-interface DropDownUserProps {
-  logout: ()=>void
-}
 
-const DropdownUser = ({logout}: DropDownUserProps) => {
+const DropdownUser = () => {
+  const {logout, user} = useContext(AuthContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef<any>(null);
@@ -55,9 +54,11 @@ const DropdownUser = ({logout}: DropDownUserProps) => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+            {user?.first_name} {user?.last_name}
           </span>
-          <span className="block text-xs">UX Designer</span>
+          <span className="block text-xs">{
+            user?.is_seller ? "Seller" : "Customer"
+          }</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">

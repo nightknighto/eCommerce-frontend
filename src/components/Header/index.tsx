@@ -142,7 +142,7 @@ const Header = (props: {
                   </Button>
                 </Link>
                 <CartButton />
-                <DropdownUser logout={logout}/>
+                <DropdownUser />
               </>
             )
           }
