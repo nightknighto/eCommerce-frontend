@@ -168,7 +168,7 @@ const Header = (props: {
                 <ul className="flex flex-row font-medium mt-0 space-x-8 rtl:space-x-reverse text-sm">
                     {categories.map(category => (
                       <li key={category.id}>
-                          <Link href={`/search?category=${category.id}`} className="text-gray-900 dark:text-white hover:underline" aria-current="page">{category.name}</Link>
+                          <Link href={`/search?categories=${category.id}`} className="text-gray-900 dark:text-white hover:underline" aria-current="page">{category.name}</Link>
                       </li>
                     ))}
                 </ul>
