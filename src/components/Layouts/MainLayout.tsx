@@ -6,6 +6,7 @@ import DropdownNotification from '../Header/DropdownNotification';
 import DropdownUser from '../Header/DropdownUser';
 import Header from '../Header';
 import AuthContextProvider from '@/contexts/AuthContext';
+import ContextProviders from '@/contexts/ContextProviders';
 
 export default function MainLayout ({ children }: {
     children: React.ReactNode;
@@ -15,7 +16,7 @@ export default function MainLayout ({ children }: {
     const thisYear = new Date().getFullYear();
 
     return (
-        <AuthContextProvider>
+        <ContextProviders>
             <div>
                 <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
@@ -77,6 +78,6 @@ export default function MainLayout ({ children }: {
                 </footer>
 
             </div>
-        </AuthContextProvider>
+        </ContextProviders>
     );
 };

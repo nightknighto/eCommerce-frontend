@@ -2,23 +2,29 @@
 import MainLayout from "@/components/Layouts/MainLayout"
 import Image from "next/image";
 import JoinAsSeller from "./JoinAsSeller";
-import React, { useEffect, useState } from "react";
-import AuthContextProvider from "@/contexts/AuthContext";
+import React, { useContext, useEffect, useState } from "react";
+import AuthContextProvider, { AuthContext } from "@/contexts/AuthContext";
 import AddPoroductToSell from "./AddProductToSell";
+import { ProfileData } from "@/types/profileData";
 
 const Profile = () => {
-    const [seller,setSeller] = useState(false);
-    const [addProduct,setAddProduct] = useState(false);
-    const [token,setToken] = useState<string | null>(null)
-    const [userId,setUserId] = useState<number | null>(null)
+    const {token} = useContext(AuthContext)
+    const [profile,setProfile] = useState<ProfileData>();
+    const [openSellerModal,setOpenSellerModal] = useState(false);
+    const [openAddProduct,setOpenAddModal] = useState(false);
 
-    useEffect(()=>{
-        const user = sessionStorage.getItem("loggedInUser");
-        if(user){
-            setToken(JSON.parse(user).token)
-            setUserId(JSON.parse(user).user.id);
+    useEffect(() => {
+        const fetchUser = async () => {
+            const res = await fetch("https://distributed-project-backend.onrender.com/api/stats/profile/", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            const data = await res.json();
+            setProfile(data);
         }
-    },[])
+        token && fetchUser();
+    }, [token])
 
     return (
         <>
@@ -31,54 +37,63 @@ const Profile = () => {
                     <Image
                         width={100}
                         height={100}
-                        src={"/images/user/user-01.png"}
+                        src={profile?.avatar ?? "/images/user/user-01.png"}
                         
                         alt="User"
                     />
                     </div>
 
 
-                    <p className="font-medium mt-4">Name</p>
+                    <p className="font-medium mt-4">Username</p>
                     <div className="bg-slate-200 rounded-md py-2 border-2 border-slate-300">
-                        <p>Username</p>
+                        <p>{profile?.user.username}</p>
                     </div>
 
                     <p className="font-medium mt-4">Email</p>
                     <div className="bg-slate-200 rounded-md py-2 border-2 border-slate-300">
-                        <p>Email</p>
+                        <p>{profile?.user.email}</p>
+                    </div>
+
+                    <p className="font-medium mt-4">First Name</p>
+                    <div className="bg-slate-200 rounded-md py-2 border-2 border-slate-300">
+                        <p>{profile?.user.first_name}</p>
+                    </div>
+
+                    <p className="font-medium mt-4">Last Name</p>
+                    <div className="bg-slate-200 rounded-md py-2 border-2 border-slate-300">
+                        <p>{profile?.user.last_name}</p>
                     </div>
 
                     <p className="font-medium mt-4">Address</p>
                     <div className="bg-slate-200 rounded-md py-2 border-2 border-slate-300">
-                        <p>Address</p>
-                    </div>
-
-                    <p className="font-medium mt-4">Phone number</p>
-                    <div className="bg-slate-200 rounded-md py-2 border-2 border-slate-300">
-                        <p>Phone number</p>
+                        <p>{profile?.address}</p>
                     </div>
                 </div>
-                <button className="text-xl bg-sky-500 text-white p-2 mt-2 rounded-md" onClick={e=>setSeller(true)}>Join as seller</button>
-                <div className="bg-white">
-                <button className="" onClick={e=>{setAddProduct(true)}}>Add a product to sell</button>
-
-                </div>
+                {
+                    profile?.user.is_seller ? (
+                        <div className="bg-white">
+                            <button className="" onClick={e=>{setOpenAddModal(true)}}>Add a product to sell</button>
+                        </div>
+                    ) : (
+                        <button className="text-xl bg-sky-500 text-white p-2 mt-2 rounded-md" onClick={e=>setOpenSellerModal(true)}>Join as seller</button>
+                    )
+                }
             </div>
             {
-                seller?
+                openSellerModal?
                 (
-                    <JoinAsSeller setSeller={setSeller} token={token}/>
+                    <JoinAsSeller setSeller={setOpenSellerModal} token={token}/>
                 ):("")
             }
             {
-                addProduct?
+                openAddProduct?
                 (
-                    <AddPoroductToSell setAddProduct={setAddProduct} token={token} userId={userId}/>
+                    <AddPoroductToSell setAddProduct={setOpenAddModal} token={token} userId={profile!.user.id}/>
                 ):
                 ("")
                 
             }
-        <div className={`fixed top-0 left-0 w-full h-full bg-black z-10 ${seller || addProduct?"block":"hidden"} opacity-50`} onClick={e=>{setSeller(false); setAddProduct(false)}}></div>
+        <div className={`fixed top-0 left-0 w-full h-full bg-black z-10 ${openSellerModal || openAddProduct?"block":"hidden"} opacity-50`} onClick={e=>{setOpenSellerModal(false); setOpenAddModal(false)}}></div>
         </>
     );
 }

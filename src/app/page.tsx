@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import TemplateLayout from "@/components/Layouts/DefaultLayout";
 import MainLayout from "@/components/Layouts/MainLayout";
 import ProductCard from "@/components/Cards/ProductCard";
 import MerchantCard from "@/components/Cards/MerchantCard";

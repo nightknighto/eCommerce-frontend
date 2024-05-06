@@ -2,6 +2,9 @@ import { Button } from "flowbite-react";
 import ReviewStars from "../Stars";
 import { Product } from "@/types/product";
 import Link from "next/link";
+import { AuthContext } from "@/contexts/AuthContext";
+import { useContext, useState } from "react";
+import { CartButtonContext } from "@/contexts/CartButtonContext";
 
 interface ProductCardProps {
     type: "edit"|"addtocart";
@@ -16,6 +19,12 @@ export default function ProductCard({
     onClick,
     stock
 }: ProductCardProps) {
+
+    const {addToCart, cartData} = useContext(CartButtonContext);
+
+    const isInCart = cartData.cart.some(item => item.product_details.id === product.id);
+
+
     return (
         <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <Link href={`/productPage/${product.id}`}>
@@ -40,13 +49,24 @@ export default function ProductCard({
                     }
                     
                     {type === "edit" ? 
-                    <Button 
-                        onClick={onClick}
-                    >
-                        Edit Product
-                    </Button>
+                        <Button 
+                            onClick={onClick}
+                            color="warning"
+                        >
+                            Edit Product
+                        </Button>
                     : 
-                        <a href="#" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a>
+                        <>{
+                            isInCart ? 
+                            <span className="text-gray-900 dark:text-white">Added to cart</span>
+                            :
+                            <Button 
+                                onClick={addToCart.bind(null, product.id)}
+                                color="blue"
+                            >
+                                Add to cart
+                            </Button>
+                        }</>
                     }
                 </div>
             </div>
