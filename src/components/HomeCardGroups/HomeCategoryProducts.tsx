@@ -20,7 +20,6 @@ const HomeCategoryProducts = () => {
         .then(res => res.json())
         .then((data: Product[]) => {
             setProducts(data);
-            console.log(data);
             const _categories = data.map(product => ({name: product.category_name, id: product.category}));
             const uniqueCategories = new Map(_categories.map(c => [c.id, c])).values();
             setCategories([...uniqueCategories]);
