@@ -1,17 +1,17 @@
 "use client";
 
 import { useContext, useEffect, useState } from "react";
-import ProductCard from "../Cards/ProductCard";
 import { AuthContext } from "@/contexts/AuthContext";
-import { Product } from "@/types/product";
+import { Category } from "@/types/category";
+import CategoryCard from "../Cards/CategoryCard";
 
-const HomeProducts = () => {
+const HomeCategories = () => {
     const {token} = useContext(AuthContext);
-    const [products, setProducts] = useState<Product[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
 
     useEffect(() => {
         if (!token) return;
-        fetch("https://distributed-project-backend.onrender.com/api/home/products/",{
+        fetch("https://distributed-project-backend.onrender.com/api/home/categories/",{
             mode:"cors",
             headers:{
                 "Content-Type":"application/json",
@@ -20,19 +20,19 @@ const HomeProducts = () => {
         })
         .then(res => res.json())
         .then((data) => {
-            setProducts(data);
+            setCategories(data);
         })
     }, [token]);
 
     return (
         <div className="flex overflow-x-auto gap-x-2">
-            {products.slice(0, 10).map(product => (
-                <div key={product.id} className="flex-shrink-0">
-                    <ProductCard product={product} type="addtocart" key={product.id}/>
+            {categories.map(category => (
+                <div key={category.id} className="flex-shrink-0">
+                    <CategoryCard category={category} key={category.id}/>
                 </div>
             ))}
         </div>
     );
 }
  
-export default HomeProducts;
+export default HomeCategories;
