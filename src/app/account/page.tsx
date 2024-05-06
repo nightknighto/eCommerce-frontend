@@ -6,6 +6,7 @@ import { Button, Table } from "flowbite-react";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import { SellerInfo } from "@/types/SellerInfo";
+import { Product } from "@/types/product";
 
 const StatsCard = (props: {topText: string | number, bottomText: string | number}) => {
     return (
@@ -21,8 +22,10 @@ const Account = () => {
   const [showEditModal, setShowEditModal] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
     const [showContactAdminsModal, setContactAdminsModal] = useState(false);
+    const [modalProduct, setModalProduct] = useState<Product | undefined>(undefined);
 
     const [stats, setStats] = useState<SellerInfo>();
+    const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
         fetch("https://distributed-project-backend.onrender.com/api/stats/my-seller-info/",{
@@ -37,9 +40,10 @@ const Account = () => {
             console.log(data);
             setStats(data);
         })
-    }, [token]);
+    }, [token, refresh]);
 
-    const editProduct = () => {
+    const editProduct = (product: Product) => {
+        setModalProduct(product);
         setShowEditModal(true);
     }
 
@@ -118,7 +122,7 @@ const Account = () => {
                                     <Table.Cell>{product.total_sold}</Table.Cell>
                                     <Table.Cell>{product.quantity}</Table.Cell>
                                     <Table.Cell className="flex gap-x-2">
-                                        <Button size="sm" onClick={editProduct}>
+                                        <Button size="sm" onClick={() => editProduct(product)}>
                                             Edit
                                         </Button>
                                         <Button size="sm" onClick={deleteProduct} color="warning">
@@ -134,8 +138,8 @@ const Account = () => {
                     <div className="my-16"></div>
                 </div>
             </div>
-            <ProductModal type="edit" open={showEditModal} onClose={() => setShowEditModal(false)} error={null}/>
-            <ProductModal type="add" open={showAddModal} onClose={() => setShowAddModal(false)} error={null}/>
+            {showEditModal && <ProductModal onDone={() => setRefresh(!refresh)} product={modalProduct} token={token} type="edit" open={showEditModal} onClose={() => setShowEditModal(false)} error={null}/>}
+            <ProductModal onDone={() => setRefresh(!refresh)} token={token} type="add" open={showAddModal} onClose={() => setShowAddModal(false)} error={null}/>
             <ContactAdminsModal open={showContactAdminsModal} onClose={() => setContactAdminsModal(false)} error={null}/>
         </>
     );
