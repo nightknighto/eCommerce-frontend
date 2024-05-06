@@ -4,7 +4,6 @@ import Image from "next/image";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 
 import { Metadata } from "next";
-import TemplateLayout from "@/components/Layouts/DefaultLayout";
 import { Field, Form } from "formik";
 import SignupForm from "./SignupForm";
 import MainLayout from "@/components/Layouts/MainLayout";

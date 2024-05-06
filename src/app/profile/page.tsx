@@ -88,7 +88,7 @@ const Profile = () => {
             {
                 openAddProduct?
                 (
-                    <AddPoroductToSell setAddProduct={setOpenAddModal} token={token} userId={profile!.id}/>
+                    <AddPoroductToSell setAddProduct={setOpenAddModal} token={token} userId={profile!.user.id}/>
                 ):
                 ("")
                 

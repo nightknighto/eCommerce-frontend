@@ -4,6 +4,7 @@ import { Product } from "@/types/product";
 import Link from "next/link";
 import { AuthContext } from "@/contexts/AuthContext";
 import { useContext, useState } from "react";
+import { CartButtonContext } from "@/contexts/CartButtonContext";
 
 interface ProductCardProps {
     type: "edit"|"addtocart";
@@ -19,33 +20,10 @@ export default function ProductCard({
     stock
 }: ProductCardProps) {
 
-    const {token, openModal} = useContext(AuthContext);
-    const [addedToCart, setAddedToCart] = useState(false);
+    const {addToCart, cartData} = useContext(CartButtonContext);
 
-    async function addToCart() {
-        if(token) {
-            const res = await fetch("https://distributed-project-backend.onrender.com/api/stats/cart-items/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    product: product.id,
-                    quantity: 1
-                })
-            });
-            if(res.ok) {
-                setAddedToCart(true);
-            } else {
-                if(res.status === 400) {
-                    alert("Product already in cart")
-                }
-            }
-        } else {
-            openModal();
-        }
-    }
+    const isInCart = cartData.cart.some(item => item.product_details.id === product.id);
+
 
     return (
         <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -79,11 +57,11 @@ export default function ProductCard({
                         </Button>
                     : 
                         <>{
-                            addedToCart ? 
+                            isInCart ? 
                             <span className="text-gray-900 dark:text-white">Added to cart</span>
                             :
                             <Button 
-                                onClick={addToCart}
+                                onClick={addToCart.bind(null, product.id)}
                                 color="blue"
                             >
                                 Add to cart
