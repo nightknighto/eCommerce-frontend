@@ -47,9 +47,20 @@ const Account = () => {
         setShowEditModal(true);
     }
 
-    const deleteProduct = () => {
+    const deleteProduct = (id: number) => {
+        console.log(id);
         if (confirm("Are you sure you want to delete this product?")) {
-            // delete product
+            fetch(`https://distributed-project-backend.onrender.com/api/home/products/${id}`,{
+                method: "DELETE",
+                mode:"cors",
+                headers:{
+                    "Content-Type":"application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+            .then(() => {
+                setRefresh(!refresh);
+            })
         }
     }
     
@@ -125,7 +136,7 @@ const Account = () => {
                                         <Button size="sm" onClick={() => editProduct(product)}>
                                             Edit
                                         </Button>
-                                        <Button size="sm" onClick={deleteProduct} color="warning">
+                                        <Button size="sm" onClick={() => deleteProduct(product.id)} color="warning">
                                             Delete
                                         </Button>
                                     </Table.Cell>
