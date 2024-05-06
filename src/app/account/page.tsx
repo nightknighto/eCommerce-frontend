@@ -1,11 +1,11 @@
 "use client";
 
-import ProductCard from "@/components/Cards/ProductCard";
-import MainLayout from "@/components/Layouts/MainLayout";
 import ProductModal from "@/components/Modals/ProductModal";
 import ContactAdminsModal from "@/components/Modals/ContactAdminsModal";
 import { Button, Table } from "flowbite-react";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "@/contexts/AuthContext";
+import { SellerInfo } from "@/types/SellerInfo";
 
 const StatsCard = (props: {topText: string, bottomText: string}) => {
     return (
@@ -17,9 +17,27 @@ const StatsCard = (props: {topText: string, bottomText: string}) => {
 }
 
 const Account = () => {
-    const [showEditModal, setShowEditModal] = useState(false);
+  const {token} = useContext(AuthContext);
+  const [showEditModal, setShowEditModal] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
     const [showContactAdminsModal, setContactAdminsModal] = useState(false);
+
+    const [stats, setStats] = useState<SellerInfo>();
+
+    useEffect(() => {
+        fetch("https://distributed-project-backend.onrender.com/api/stats/my-seller-info/",{
+            mode:"cors",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization": `Bearer ${token}`
+            },
+        })
+        .then(res => res.json())
+        .then((data) => {
+            console.log(data);
+            setStats(data);
+        })
+    }, [token]);
 
     const editProduct = () => {
         setShowEditModal(true);
@@ -68,11 +86,11 @@ const Account = () => {
                 <div className="w-full border-slate-200 border-2 flex flex-col rounded-md p-4">
                     <p className="text-xl font-semibold mb-4">Statistics</p>
                     <div className="flex flex-wrap gap-x-4 mb-8">
-                        <StatsCard topText="Items listed" bottomText="24"/>
-                        <StatsCard topText="Items sold" bottomText="174"/>
-                        <StatsCard topText="Total revenue" bottomText="$3,472"/>
-                        <StatsCard topText="Rating" bottomText="4.9/5"/>
-                        <StatsCard topText="Out of stock" bottomText="17"/>
+                        <StatsCard topText="Items listed" bottomText={stats?.products_num.toString() ?? ""}/>
+                        <StatsCard topText="Items sold" bottomText={stats?.total_products_sold.toString() ?? ""}/>
+                        <StatsCard topText="Total revenue" bottomText={stats?.total_revenue ?? ""}/>
+                        <StatsCard topText="Rating" bottomText={stats?.average_product_rating ?? ""}/>
+                        <StatsCard topText="Out of stock" bottomText={stats?.out_of_stock_num.toString() ?? ""}/>
                     </div>
                     
                     <p className="text-xl font-semibold mb-4">My Products</p>
