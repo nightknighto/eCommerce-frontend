@@ -4,6 +4,8 @@ import JoinAsSeller from "./JoinAsSeller";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import { ProfileData } from "@/types/profileData";
+import { Button, Table } from "flowbite-react";
+import { Product } from "@/types/product";
 
 const Profile = () => {
     const {token} = useContext(AuthContext)
@@ -11,7 +13,23 @@ const Profile = () => {
     const [openSellerModal,setOpenSellerModal] = useState(false);
     const [openAddProduct,setOpenAddModal] = useState(false);
 
+    const [wishlist, setWishlist] = useState<Product[]>([]);
+
+    const fetchWishlist = () => {
+        fetch(`https://distributed-project-backend.onrender.com/api/stats/get-wishlist`, {
+            headers: {
+                "Authorization": `Bearer ${token}`, 
+            }
+        })
+        .then(res => res.json())
+        .then((wishlist: Product[]) => {
+            console.log(wishlist);
+            setWishlist(wishlist);
+        })
+    };
+
     useEffect(() => {
+        if (!token) return;
         const fetchUser = async () => {
             const res = await fetch("https://distributed-project-backend.onrender.com/api/stats/profile/", {
                 headers: {
@@ -21,13 +39,15 @@ const Profile = () => {
             const data = await res.json();
             setProfile(data);
         }
-        token && fetchUser();
+        fetchUser();
+        fetchWishlist();
     }, [token])
 
     return (
-        <>
-            <div className="flex flex-col items-center justify-center p-4">
-                <div className="w-full md:w-1/2 lg:w-1/3 border-slate-200 border-2 flex flex-col rounded-md p-2">
+        <div className="flex flex-col md:flex-row w-full">
+            {/* Profile */}
+            <div className="w-full md:w-1/4 flex flex-col items-center justify-center p-4">
+                <div className="w-full border-slate-200 border-2 flex flex-col rounded-md p-2">
                     <p className="text-xl font-semibold mb-8">My Profile</p>
 
                     <p className="font-medium">Profile Photo</p>
@@ -78,8 +98,38 @@ const Profile = () => {
                     <JoinAsSeller setSeller={setOpenSellerModal} token={token}/>
                 ):("")
             }
-        <div className={`fixed top-0 left-0 w-full h-full bg-black z-10 ${openSellerModal || openAddProduct?"block":"hidden"} opacity-50`} onClick={e=>{setOpenSellerModal(false); setOpenAddModal(false)}}></div>
-        </>
+            {/* Wishlist */}
+            <div className="w-full md:w-3/4 p-4">
+                <h2 className="text-2xl font-bold mb-2">My Wishlist</h2>
+                <div className="overflow-x-auto mb-8">
+                        <Table>
+                            <Table.Head>
+                                <Table.HeadCell>Product name</Table.HeadCell>
+                                <Table.HeadCell>Category</Table.HeadCell>
+                                <Table.HeadCell>Price</Table.HeadCell>
+                                <Table.HeadCell>Cart</Table.HeadCell>
+                            </Table.Head>
+                            <Table.Body className="divide-y">
+                                {wishlist.map(product => (
+                                    <Table.Row key={product.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                                        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                            {product.name}
+                                        </Table.Cell>
+                                        <Table.Cell>{product.category_name}</Table.Cell>
+                                        <Table.Cell>{product.price}</Table.Cell>
+                                        <Table.Cell className="flex gap-x-2">
+                                            <Button size="sm" onClick={() => {}}>
+                                                Add to Cart
+                                            </Button>
+                                        </Table.Cell>
+                                    </Table.Row>
+                                ))}
+                            </Table.Body>
+                        </Table>
+                </div>
+            </div>
+            <div className={`fixed top-0 left-0 w-full h-full bg-black z-10 ${openSellerModal || openAddProduct?"block":"hidden"} opacity-50`} onClick={e=>{setOpenSellerModal(false); setOpenAddModal(false)}}></div>
+        </div>
     );
 }
  
