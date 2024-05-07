@@ -1,10 +1,8 @@
 "use client"
-import MainLayout from "@/components/Layouts/MainLayout"
 import Image from "next/image";
 import JoinAsSeller from "./JoinAsSeller";
 import React, { useContext, useEffect, useState } from "react";
-import AuthContextProvider, { AuthContext } from "@/contexts/AuthContext";
-import AddPoroductToSell from "./AddProductToSell";
+import { AuthContext } from "@/contexts/AuthContext";
 import { ProfileData } from "@/types/profileData";
 
 const Profile = () => {
@@ -37,7 +35,8 @@ const Profile = () => {
                     <Image
                         width={100}
                         height={100}
-                        src={profile?.avatar ?? "/images/user/user-01.png"}
+                        // TODO: Show image once we get rid of the stupid URLs in the db
+                        src={"/images/user/user-01.png"}
                         
                         alt="User"
                     />
@@ -69,14 +68,8 @@ const Profile = () => {
                         <p>{profile?.address}</p>
                     </div>
                 </div>
-                {
-                    profile?.user.is_seller ? (
-                        <div className="bg-white">
-                            <button className="" onClick={e=>{setOpenAddModal(true)}}>Add a product to sell</button>
-                        </div>
-                    ) : (
-                        <button className="text-xl bg-sky-500 text-white p-2 mt-2 rounded-md" onClick={e=>setOpenSellerModal(true)}>Join as seller</button>
-                    )
+                {!profile?.user.is_seller && 
+                <button className="text-xl bg-sky-500 text-white p-2 mt-2 rounded-md" onClick={e=>setOpenSellerModal(true)}>Join as seller</button>
                 }
             </div>
             {
@@ -84,14 +77,6 @@ const Profile = () => {
                 (
                     <JoinAsSeller setSeller={setOpenSellerModal} token={token}/>
                 ):("")
-            }
-            {
-                openAddProduct?
-                (
-                    <AddPoroductToSell setAddProduct={setOpenAddModal} token={token} userId={profile!.user.id}/>
-                ):
-                ("")
-                
             }
         <div className={`fixed top-0 left-0 w-full h-full bg-black z-10 ${openSellerModal || openAddProduct?"block":"hidden"} opacity-50`} onClick={e=>{setOpenSellerModal(false); setOpenAddModal(false)}}></div>
         </>
