@@ -13,17 +13,16 @@ export default function WishlistItems ({ wishlistItems, fetchWishlist }: {
 
   const { token } = useContext(AuthContext);
 
-  // TODO: this endpoint doesnt exist yet
   async function deleteItem(id: number) {
-    // const response = await fetch(`https://distributed-project-backend.onrender.com/api/stats/cart-items/${id}`, {
-    //   method: "DELETE",
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // });
-    // if (response.ok) {
-    //   fetchWishlist();
-    // }
+    const response = await fetch(`https://distributed-project-backend.onrender.com/api/stats/remove-product/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.ok) {
+      fetchWishlist();
+    }
   }
 
   async function changeQuantity(id: number, e: React.ChangeEvent<HTMLInputElement>) {
