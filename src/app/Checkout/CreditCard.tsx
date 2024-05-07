@@ -73,7 +73,7 @@ const CreditCard = ({ id, setLoader, setBgDisplay, closeConfirm, setCloseConfirm
                     <div className="w-35 text-center">xxxx-xxxx-xxxx-2343</div>
                     <div className="w-35 text-center">08-2026</div>
                 </div>
-                <div className={`credit-card-confirmation p-5 ${confirmation?"flex":"hidden"} flex-row justify-center`} id={`credit-card-confirmation-${id}`}>
+                <div className={`credit-card-confirmation p-5 ${confirmation?"flex":"hidden"} flex-col justify-center`} id={`credit-card-confirmation-${id}`}>
                     <form className="flex flex-row gap-x-2 items-center text-xl" onSubmit={confirm}>
                         <label htmlFor={`number-${id}`}>Confirm number:&nbsp;</label>
                         <input type="number" name={`number-${id}`} id={`number-${id}`} className={`h-8 font-normal rounded-md border-1 ${numberBorder?"border-red":"border-slate-500"}`}/>

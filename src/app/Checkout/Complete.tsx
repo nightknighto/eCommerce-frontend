@@ -15,8 +15,10 @@ const Done = ()=>{
                 <div className="flex flex-row gap-x-10 w-full justify-center items-center">
                     <button className="text-xl p-1 border-b-2 border-b-white hover:border-b-2 
                     hover:border-b-sky-500 hover:text-black">Track Order</button>
-                    <button className="text-xl p-1 border-b-2 border-b-white hover:border-b-2 
-                    hover:border-b-sky-500 hover:text-black">Continue shopping</button>
+                    <Link href={"/"}>
+                        <button className="text-xl p-1 border-b-2 border-b-white hover:border-b-2 
+                        hover:border-b-sky-500 hover:text-black">Continue shopping</button>
+                    </Link>
                 </div>
             </div>
         </>
