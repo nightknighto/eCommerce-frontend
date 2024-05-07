@@ -19,7 +19,9 @@ export default function ContactAdminsModal({ open, onClose, error }: ContactAdmi
 
     function onSubmitModal(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        onClose();
+        setTimeout(() => {
+            location.reload();
+        }, 1500);
     }
 
     return (
