@@ -9,5 +9,6 @@ export type Product = {
   "category_name": string,
   "seller": number,
   "seller_name": string,
-  "product_path": number
+  "product_path": number,
+  "thumbnail": string
 };
