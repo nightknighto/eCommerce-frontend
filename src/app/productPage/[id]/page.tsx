@@ -69,7 +69,7 @@ const ProductPage = () =>{
 
     return(
         <>
-            <div style={{backgroundColor:"#f9f9f9"}} className="product-page flex flex-col flex-wrap px-10 my-30 gap-y-5 gap-x-10 w-full h-fit">
+            <div style={{backgroundColor:"#f9f9f9"}} className="product-page flex flex-col flex-wrap px-10 gap-y-5 gap-x-10 w-full h-fit">
                 <div className="flex flex-row items-center justify-between w-full h-fit">
                     <div className="product-side flex flex-row justify-center items-center px-10 box-border gap-x-10 w-fit h-full">
                         <div className="" id="image">
