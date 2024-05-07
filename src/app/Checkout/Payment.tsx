@@ -118,7 +118,7 @@ const Payment = ({setNextDisplay, setBgDisplay, setLoader, setStep, complete}:Pa
                 "Content-Type":"application/json",
                 "Authorization":`Bearer ${token}` 
             },
-            body
+            body: body
         }).then(async (response)=>{
             const res = await response.json()
             console.log(res);
