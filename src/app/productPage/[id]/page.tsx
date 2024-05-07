@@ -9,15 +9,19 @@ import RelatedItem from "./RelatedItem";
 import { Product } from "@/types/product";
 import { useParams } from "next/navigation";
 import { CartButtonContext } from "@/contexts/CartButtonContext";
+import { AuthContext } from "@/contexts/AuthContext";
 
 const ProductPage = () =>{
     const searchParams = useParams<{id: string}>();
 
     const {addToCart, cartData} = useContext(CartButtonContext);
+    const {token} = useContext(AuthContext);
+
     const productId = parseInt(searchParams.id)
     const isInCart = cartData.cart.some(item => item.product_details.id === productId);
 
     const [product, setProduct] = useState<Product>();
+    const [isInWishlist, setIsInWishlist] = useState(false);
     const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
     const [reviewDisplay,setReviewDisplay] = useState(false);
     const showReviewWindow = (show:boolean)=>{
@@ -25,20 +29,43 @@ const ProductPage = () =>{
     }
 
     useEffect(() => {
+        if (!token) return;
         fetch(`https://distributed-project-backend.onrender.com/api/home/products/${productId}`)
         .then(res => res.json())
         .then((data: Product) => {
-            console.log(data);
             setProduct(data);
             fetch(`https://distributed-project-backend.onrender.com/api/home/products/`)
-            .then(res2 => res2.json())
-            .then((data2: Product[]) => {
-                console.log(data2);
-                setRelatedProducts(data2.slice(0, 3));             
+                .then(res2 => res2.json())
+                .then((data2: Product[]) => {
+                    console.log(data2);
+                    setRelatedProducts(data2.slice(0, 3));             
+            fetch(`https://distributed-project-backend.onrender.com/api/stats/get-wishlist`, {
+                    headers: {
+                        "Authorization": `Bearer ${token}`, 
+                    }
+                })
+                .then(res => res.json())
+                .then((wishlist: Product[]) => {
+                    console.log(wishlist);
+                    setIsInWishlist(wishlist.filter(w => w.id === data.id).length > 0);
+                })
             })
         })
-    }, [productId])
+    }, [productId, token])
 
+    const addToWishlist = () => {
+        fetch(`https://distributed-project-backend.onrender.com/api/stats/wishlist-product/`, {
+            method: "POST",
+            headers: {
+                "Content-Type":"application/json",
+                "Authorization": `Bearer ${token}`, 
+            },
+            body: JSON.stringify({product: product?.id})
+        })
+        .then(() => {
+            setIsInWishlist(true);
+        })
+    }
 
     return(
         <>
@@ -79,10 +106,16 @@ const ProductPage = () =>{
                                     Add To Cart
                                 </button>
                                 }
-                                <button className="flex flex-row justify-center items-center gap-x-2 w-fit my-1 h-10 text-xl hover:text-2xl duration-500">
+                                {isInWishlist ?
+                                <span className="text-gray-900 bg-green-300 text-center rounded-md dark:text-white text-xl font-semibold">Item is in wishlist</span>
+                                :
+                                <button 
+                                    className="flex flex-row justify-center items-center gap-x-2 w-fit my-1 h-10 text-xl hover:text-2xl duration-500"
+                                    onClick={addToWishlist}
+                                >
                                     <span>Add To Wishlist</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="rgb(100 116 139)" height="24" viewBox="0 -960 960 960" width="24"><path d="M440-501Zm0 381L313-234q-72-65-123.5-116t-85-96q-33.5-45-49-87T40-621q0-94 63-156.5T260-840q52 0 99 22t81 62q34-40 81-62t99-22q81 0 136 45.5T831-680h-85q-18-40-53-60t-73-20q-51 0-88 27.5T463-660h-46q-31-45-70.5-72.5T260-760q-57 0-98.5 39.5T120-621q0 33 14 67t50 78.5q36 44.5 98 104T440-228q26-23 61-53t56-50l9 9 19.5 19.5L605-283l9 9q-22 20-56 49.5T498-172l-58 52Zm280-160v-120H600v-80h120v-120h80v120h120v80H800v120h-80Z"/></svg>
-                                </button>
+                                </button>}
                                 <span className="text-green-400">{product?.quantity} In-Stock</span>
                             </div>
                         </div>
