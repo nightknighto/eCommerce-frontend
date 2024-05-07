@@ -9,7 +9,7 @@ interface RelatedItemProps {
 
 const RelatedItem = ({name}:RelatedItemProps)=>{
     return(
-        <div id="item" className="item flex flex-col w-30 justify-center py-6 cursor-pointer hover:translate-y-0.5 hover:translate-x-0.5 duration-500">
+        <div id="item" className="item flex flex-col w-28 justify-center py-6 hover:translate-y-0.5 hover:translate-x-0.5 duration-500">
         <Image
             src={"/images/product/product-01.png"}
             alt="profile cover"
@@ -21,7 +21,7 @@ const RelatedItem = ({name}:RelatedItemProps)=>{
                 height: "auto",
             }}
         />
-        <span className="text-center">{name}</span>
+        <span className="text-center text-base">{name}</span>
     </div>
     )
 }
