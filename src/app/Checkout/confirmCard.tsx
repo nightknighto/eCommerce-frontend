@@ -4,10 +4,11 @@ import Link from "next/link";
 interface ConfirmCardProps {
     setStep: (f:(s:number)=>number)=>void,
     setShowOtpForm: (b:boolean)=>void,
-    setBgDisplay: (b:boolean)=>void
+    setBgDisplay: (b:boolean)=>void,
+    setConfirm: (b:boolean)=>void
 }
 
-const ConfirmCard = ({ setStep, setShowOtpForm, setBgDisplay }:ConfirmCardProps)=>{
+const ConfirmCard = ({ setStep, setShowOtpForm, setBgDisplay, setConfirm }:ConfirmCardProps)=>{
 
     const [otpBorder,setOtpBorder] = useState(false);
 
@@ -18,9 +19,10 @@ const ConfirmCard = ({ setStep, setShowOtpForm, setBgDisplay }:ConfirmCardProps)
         if(otp.length === 0){
             setOtpBorder(true)
         }else{
-            setStep((x: number)=>++x);
+            // setStep((x: number)=>++x);
+            setConfirm(true);
             setShowOtpForm(false);
-            setBgDisplay(false)
+            setBgDisplay(false);
         }
     }
 

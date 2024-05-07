@@ -17,10 +17,11 @@ const Checkout = () =>{
     const [nextDisplay,setNextDisplay] = useState(true);
     const [bgDispaly,setBgDisplay] = useState(false);
     const [loaderDisplay,setLoader] = useState(false);
-    const [showOtpForm,setShowOtpForm] = useState(false);
+    const [completeOrder,setCompleteOrder] = useState(false);
 
     const next = (e:MouseEvent)=>{
-        setStep(s=>++s);
+        if(step === 2) setCompleteOrder(true);
+        else setStep(s=>++s);
     }
     const prev = (e:MouseEvent)=>{
         setStep(s=>--s);
@@ -41,19 +42,13 @@ const Checkout = () =>{
                             <><Address></Address></>
                         ):step === 2?
                         (
-                            <><Payment setNextDisplay={setNextDisplay} setBgDisplay={setBgDisplay} setLoader={setLoader} setShowOtpForm={setShowOtpForm}></Payment></>
+                            <><Payment setNextDisplay={setNextDisplay} setBgDisplay={setBgDisplay} setLoader={setLoader} setStep={setStep} complete={completeOrder}></Payment></>
                         ):
                         (
                             <Done></Done>
                         )
                     }
                     <Order step={step}></Order>
-                    {
-                        showOtpForm?(
-                            <ConfirmCard setStep={setStep} setShowOtpForm={setShowOtpForm} setBgDisplay={setBgDisplay}></ConfirmCard>
-                        ):("")
-                    }
-                    
                 </div>
                 <div className="flex flex-row justify-between items-center h-15 bg-slate-300">
                     <button className={`mx-3 h-fit px-2 py-1 w-20 box-border rounded-lg bg-sky-500 text-white 

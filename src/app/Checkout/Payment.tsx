@@ -1,14 +1,16 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import CreditCard from "./CreditCard";
+import ConfirmCard from "./confirmCard";
 
 interface PaymentProps {
     setNextDisplay:(b:boolean)=>void,
     setBgDisplay:(b:boolean)=>void,
     setLoader:(b:boolean)=>void,
-    setShowOtpForm: (b:boolean)=>void
+    setStep: (f:(s:number)=>number)=>void,
+    complete: boolean
 }
-const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:PaymentProps)=>{
+const Payment = ({setNextDisplay, setBgDisplay, setLoader, setStep, complete}:PaymentProps)=>{
 
     const [creditCardDisplay,setCreditCardDisplay] = useState(false);
     const [credeitNumberBorder,setCreditNumberBorder] = useState(false) //false=>border-slate-500
@@ -17,9 +19,19 @@ const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:Payme
     const [invalidInfoPropmpt,setinvalidInfoPropmpt] = useState(false)
     const [closeConfirm,setCloseConfirm] = useState(0);
     const [position,setPosition] = useState(false) //false => translate-x-full
+    const [showOtpForm,setShowOtpForm] = useState(false);
+    const [confirm,setConfirm] = useState<boolean|null>(null);
+    const [creditCardNumber,setCreditCardNumber] = useState<string>("")
+    const [creditCardExpiry,setCreditCardExpiry] = useState<string>("")
+    const [token,setToken] = useState<string|null>()
 
     useEffect(()=>{
         setPosition(true)
+        const session = sessionStorage.getItem("loggedInUser");
+        if(session){
+            const token = JSON.parse(session).token;
+            setToken(token);
+        }
     },[])
 
     const methodHandler = (open: boolean)=>{
@@ -63,6 +75,11 @@ const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:Payme
             setinvalidInfoPropmpt(true)
             return;
         }
+        console.log(Array.from(values))
+        console.log(Array.from(values)[0][1])
+        setCreditCardNumber(Array.from(values)[0][1].toString())
+        setCreditCardExpiry(`${Array.from(values)[2][1]}-${Array.from(values)[3][1]}-01`)
+        // setCreditCardExpiry(Array.from(values)[0][1])
 
         setBgDisplay(true)
         setLoader(true)
@@ -78,6 +95,41 @@ const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:Payme
     useEffect(()=>{
         setNextDisplay(true)
     },[])
+
+    const completeOrder = (credit: boolean)=>{
+        setBgDisplay(true);
+        setLoader(true)
+        const body = JSON.stringify({
+            "payment_set":{
+                "payment_method": credit?"credit card":"cash",
+                "credit_card_number": creditCardNumber,
+                "credit_card_expiry": "2025-01-01",
+                "payment_date": "2024-05-04T20:10:34.147Z"
+            }
+        })
+        console.log(JSON.parse(body))
+        console.log(token)
+        fetch("https://distributed-project-backend.onrender.com/api/payment/order/",{
+            method: "POST",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${token}` 
+            },
+            body
+        }).then(async (response)=>{
+            const res = await response.json()
+            console.log(res);
+            setBgDisplay(false);
+            setLoader(false);
+            setStep(x=>++x)
+        })
+    }
+
+    useEffect(()=>{
+        if(!confirm && !complete) return;
+        if(confirm) completeOrder(true);
+        if(complete) completeOrder(false);
+    },[confirm,complete])
 
     return (
         <>
@@ -164,6 +216,11 @@ const Payment = ({setNextDisplay, setBgDisplay, setLoader, setShowOtpForm}:Payme
                     </div>
                 </div>
             </div>
+            {
+            showOtpForm?(
+                <ConfirmCard setStep={setStep} setShowOtpForm={setShowOtpForm} setBgDisplay={setBgDisplay} setConfirm={setConfirm}></ConfirmCard>
+            ):("")
+            }
         </>
     )
 }

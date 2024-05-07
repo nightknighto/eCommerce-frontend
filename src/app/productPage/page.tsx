@@ -21,7 +21,7 @@ interface product {
 
 interface cart {
     items: number,
-    totalAmount: number
+    totalPrice: number
 }
 
 const ProductPage = () =>{
@@ -110,13 +110,13 @@ const ProductPage = () =>{
         }).then(async (res)=>{
             const cart = await res.json();
             setCart(()=>{
-                const totalAmount = cart.cart.reduce((acc:number,item:any)=>{
-                    return acc + (item.quantity * +item.product_details.price)
-                },0)
-                console.log(totalAmount)
+                // const totalAmount = cart.cart.reduce((acc:number,item:any)=>{
+                //     return acc + (item.quantity * +item.product_details.price)
+                // },0)
+                // console.log(totalAmount)
                 return {
                     "items": cart.cart.length,
-                    "totalAmount": totalAmount
+                    "totalPrice": cart.total_price
                 }
             })
             console.log(cart.cart)
@@ -213,7 +213,7 @@ const ProductPage = () =>{
                                 </div>
                                 <div>
                                     <span>Total Amount:&nbsp;</span>
-                                    <span>{cart?.totalAmount}</span>
+                                    <span>{cart?.totalPrice}</span>
                                 </div>
                                 <Link href={'/Checkout'}>
                                 <button className="bg-sky-500 text-center w-full text-white font-semibold text-2xl border-2 border-sky-500 
