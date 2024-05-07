@@ -6,9 +6,12 @@ import { AuthContext } from "@/contexts/AuthContext";
 import { ProfileData } from "@/types/profileData";
 import { Button, Table } from "flowbite-react";
 import { Product } from "@/types/product";
+import { CartButtonContext } from "@/contexts/CartButtonContext";
 
 const Profile = () => {
-    const {token} = useContext(AuthContext)
+    const {token} = useContext(AuthContext);
+    const {cartData, addToCart} = useContext(CartButtonContext);
+
     const [profile,setProfile] = useState<ProfileData>();
     const [openSellerModal,setOpenSellerModal] = useState(false);
     const [openAddProduct,setOpenAddModal] = useState(false);
@@ -27,6 +30,29 @@ const Profile = () => {
             setWishlist(wishlist);
         })
     };
+
+    async function deleteWishlistItem(id: number) {
+        const response = await fetch(`https://distributed-project-backend.onrender.com/api/stats/remove-product/${id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (response.ok) {
+            fetchWishlist();
+        }
+    }
+
+    const clearWishlist = () => {
+        fetch(`https://distributed-project-backend.onrender.com/api/stats/clear-wishlist`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            }
+        })
+        .then(() => fetchWishlist());
+      }
 
     useEffect(() => {
         if (!token) return;
@@ -100,7 +126,12 @@ const Profile = () => {
             }
             {/* Wishlist */}
             <div className="w-full md:w-3/4 p-4">
-                <h2 className="text-2xl font-bold mb-2">My Wishlist</h2>
+                <div className="flex justify-between mb-2">
+                    <h2 className="text-2xl font-bold">My Wishlist</h2>
+                    <Button onClick={clearWishlist}>
+                        Clear Wishlist
+                    </Button>
+                </div>
                 <div className="overflow-x-auto mb-8">
                         <Table>
                             <Table.Head>
@@ -108,6 +139,7 @@ const Profile = () => {
                                 <Table.HeadCell>Category</Table.HeadCell>
                                 <Table.HeadCell>Price</Table.HeadCell>
                                 <Table.HeadCell>Cart</Table.HeadCell>
+                                <Table.HeadCell>Remove</Table.HeadCell>
                             </Table.Head>
                             <Table.Body className="divide-y">
                                 {wishlist.map(product => (
@@ -118,8 +150,18 @@ const Profile = () => {
                                         <Table.Cell>{product.category_name}</Table.Cell>
                                         <Table.Cell>{product.price}</Table.Cell>
                                         <Table.Cell className="flex gap-x-2">
-                                            <Button size="sm" onClick={() => {}}>
-                                                Add to Cart
+                                            {/* Check if wishlist item is already in cart */}
+                                            {cartData.cart.filter(c => c.product_details.id === product.id).length > 0 ?
+                                                <span className="font-semibold">Added to cart!</span>
+                                                :
+                                                <Button size="sm" onClick={() => addToCart(product.id)}>
+                                                    Add to Cart
+                                                </Button>
+                                            }
+                                        </Table.Cell>
+                                        <Table.Cell>
+                                            <Button size="sm" onClick={() => deleteWishlistItem(product.id)}>
+                                                Remove
                                             </Button>
                                         </Table.Cell>
                                     </Table.Row>
