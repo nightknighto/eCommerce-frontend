@@ -139,6 +139,11 @@ const Header = (props: {
         
 
         <div className="flex items-center gap-x-4">
+          <Link href="/wishlist">
+            <Button color="blue">
+              Wishlist
+            </Button>
+          </Link>
           {
             !token ? (
               <Button
