@@ -16,7 +16,7 @@ const Header = (props: {
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
-  const {token, login, openModal, logout} = useContext(AuthContext);
+  const {token, login, openModal, logout, user} = useContext(AuthContext);
   const router = useRouter();
   const [input, setInput] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
@@ -149,11 +149,11 @@ const Header = (props: {
               </Button>
             ) : (
               <>
-                <Link href="/account">
+                {user?.is_seller && <Link href="/account">
                   <Button color="blue">
                     My Account
                   </Button>
-                </Link>
+                </Link>}
                 <CartButton />
                 <DropdownUser />
               </>
