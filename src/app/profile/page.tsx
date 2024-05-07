@@ -7,16 +7,32 @@ import { ProfileData } from "@/types/profileData";
 import { Button, Table } from "flowbite-react";
 import { Product } from "@/types/product";
 import { CartButtonContext } from "@/contexts/CartButtonContext";
+import OrderWindow from "./OrderWindow";
+
+interface Order {
+    amount: number,
+    customer: number,
+    payment_set : {
+        credit_card_number: string,
+        credit_card_expiry: string,
+        id: number,
+        payment_amount: number,
+        payment_date: string,
+        payment_method: string,
+    }
+    products: Product[]
+}
 
 const Profile = () => {
     const {token} = useContext(AuthContext);
     const {cartData, addToCart} = useContext(CartButtonContext);
-
     const [profile,setProfile] = useState<ProfileData>();
     const [openSellerModal,setOpenSellerModal] = useState(false);
     const [openAddProduct,setOpenAddModal] = useState(false);
 
     const [wishlist, setWishlist] = useState<Product[]>([]);
+    const [orders,setOrders] = useState<Order[]>([])
+    const [orderToShow,setOrderToShow] = useState<Order|null>() 
 
     const fetchWishlist = () => {
         fetch(`https://distributed-project-backend.onrender.com/api/stats/get-wishlist`, {
@@ -52,7 +68,33 @@ const Profile = () => {
             }
         })
         .then(() => fetchWishlist());
-      }
+    }
+
+    const getOrders = () =>{
+        fetch("https://distributed-project-backend.onrender.com/api/payment/order/",{
+            method:"GET",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization": `Bearer ${token}`
+            },
+        }).then(async (res)=>{
+            const orders = await res.json()
+            setOrders(orders);
+            console.log(orders[0]);
+        })
+    }
+
+    const getSeller = ()=>{
+        fetch("https://distributed-project-backend.onrender.com/api/stats/my-seller-info/",{
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization": `Bearer ${token}`   
+            }
+        }).then(async (response)=>{
+            const seller = await response.json();
+            console.log(seller)
+        })
+    }
 
     useEffect(() => {
         if (!token) return;
@@ -63,14 +105,17 @@ const Profile = () => {
                 },
             })
             const data = await res.json();
+            console.log(data)
+            if(data.user.is_seller) getSeller();
             setProfile(data);
         }
         fetchUser();
         fetchWishlist();
+        getOrders();
     }, [token])
 
     return (
-        <div className="flex flex-col md:flex-row w-full">
+        <div className="flex flex-col items-start md:flex-row w-full">
             {/* Profile */}
             <div className="w-full md:w-1/4 flex flex-col items-center justify-center p-4">
                 <div className="w-full border-slate-200 border-2 flex flex-col rounded-md p-2">
@@ -83,7 +128,6 @@ const Profile = () => {
                         height={100}
                         // TODO: Show image once we get rid of the stupid URLs in the db
                         src={"/images/user/user-01.png"}
-                        
                         alt="User"
                     />
                     </div>
@@ -114,25 +158,26 @@ const Profile = () => {
                         <p>{profile?.address}</p>
                     </div>
                 </div>
-                {!profile?.user.is_seller && 
+                {/* {!profile?.user.is_seller && 
                 <button className="text-xl bg-sky-500 text-white p-2 mt-2 rounded-md" onClick={e=>setOpenSellerModal(true)}>Join as seller</button>
-                }
+                } */}
             </div>
-            {
+            {/* {
                 openSellerModal?
                 (
                     <JoinAsSeller setSeller={setOpenSellerModal} token={token}/>
                 ):("")
-            }
-            {/* Wishlist */}
-            <div className="w-full md:w-3/4 p-4">
-                <div className="flex justify-between mb-2">
-                    <h2 className="text-2xl font-bold">My Wishlist</h2>
-                    <Button onClick={clearWishlist}>
-                        Clear Wishlist
-                    </Button>
-                </div>
-                <div className="overflow-x-auto mb-8">
+            } */}
+
+            <div className="flex flex-col w-full">
+                <div className="w-full p-4">
+                    <div className="flex justify-between mb-2">
+                        <h2 className="text-2xl font-bold">My Wishlist</h2>
+                        <Button onClick={clearWishlist}>
+                            Clear Wishlist
+                        </Button>
+                    </div>
+                    <div className="overflow-x-auto mb-8">
                         <Table>
                             <Table.Head>
                                 <Table.HeadCell>Product name</Table.HeadCell>
@@ -168,7 +213,46 @@ const Profile = () => {
                                 ))}
                             </Table.Body>
                         </Table>
+                    </div>
                 </div>
+
+                <div className="w-full p-4">
+                    <div className="flex justify-between mb-2">
+                        <h2 className="text-2xl font-bold">My Orders</h2>
+                    </div>
+                    <div className="overflow-x-auto mb-8">
+                        <Table>
+                            <Table.Head>
+                                <Table.HeadCell>Order id</Table.HeadCell>
+                                <Table.HeadCell>Amount</Table.HeadCell>
+                                <Table.HeadCell>Payment</Table.HeadCell>
+                                <Table.HeadCell>Status</Table.HeadCell>
+                            </Table.Head>
+                            <Table.Body className="divide-y">
+                                {orders.map(order => (
+                                    <Table.Row onClick={e=>setOrderToShow(order)} key={order.payment_set.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                                        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                            {order.payment_set.id}
+                                        </Table.Cell>
+                                        <Table.Cell>{order.amount} EGP</Table.Cell>
+                                        <Table.Cell>{order.payment_set.payment_method}</Table.Cell>
+                                        <Table.Cell >
+                                            <button className="bg-green-600 p-1 px-3 text-white rounded-md">{"Delivered"}</button>
+                                        </Table.Cell>
+                                    </Table.Row>
+                                ))}
+                            </Table.Body>
+                        </Table>
+                    </div>
+                </div>
+                {
+                    orderToShow?(
+                        <>
+                            <OrderWindow order={orderToShow} ></OrderWindow>
+                            <div className="bg fixed w-full h-full top-0 left-0 bg-black opacity-50" onClick={e=>setOrderToShow(null)}></div>
+                        </>
+                    ):""
+                }
             </div>
             <div className={`fixed top-0 left-0 w-full h-full bg-black z-10 ${openSellerModal || openAddProduct?"block":"hidden"} opacity-50`} onClick={e=>{setOpenSellerModal(false); setOpenAddModal(false)}}></div>
         </div>
