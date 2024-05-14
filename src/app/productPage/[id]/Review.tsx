@@ -28,10 +28,10 @@ const Review = ()=>{
                         <div className="text-2xl" style={{color:"#ffa534"}}>&#9734;</div>
                         <div className="text-2xl" style={{color:"#ffa534"}}>&#9734;</div>
                     </div>
-                    <div className="review-header font-semibold text-black">أف أح</div>
+                    <div className="review-header font-semibold text-black">Good but with issues</div>
                 </div>
                 <div className="review-text text-md text-black">
-                    برودكت جامد فشخ
+                    Good product but the delivery was late. The product was in good condition.
                 </div>
             </div>
         </>
