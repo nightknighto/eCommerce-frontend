@@ -26,7 +26,7 @@ export default function SignupForm() {
                     email,
                     password,
                 },
-                avatar:"abc.com",
+                avatar:"https://picsum.photos/200/300",
                 address:"abc",
             }),
         });
